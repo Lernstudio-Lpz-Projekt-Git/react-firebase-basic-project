@@ -1,0 +1,164 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  overflow-y: scroll;
+}
+
+h1,
+h2,
+h5 {
+  padding: 10px 0 !important;
+  margin: 0 !important;
+}
+
+.App {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+img {
+  width: 32px;
+  height: 32px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.selectMenu {
+  margin: 20px 0;
+}
+
+.selectBox {
+  width: 622px;
+  height: 54px;
+  border: 1px solid #999;
+  font-size: 22px;
+  color: #1c87c9;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 1px 1px #ccc;
+  padding: 10px;
+  /* Firefox */
+  -moz-appearance: none;
+  /* Safari and Chrome */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+select.classic {
+  background-image:
+    linear-gradient(45deg, transparent 50%, blue 50%),
+    linear-gradient(135deg, blue 50%, transparent 50%),
+    linear-gradient(to right, skyblue, skyblue);
+  background-position:
+    calc(100% - 25px) calc(1em + 1px),
+    calc(100% - 25px) calc(1em + 1px),
+    100% 0;
+  background-size:
+    15px 15px,
+    5px 5px,
+    2.5em 2.5em;
+  background-repeat: no-repeat;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h4 {
+  padding: 0 !important;
+  margin: 6px;
+}
+i {
+  margin-bottom: 6px !important;
+}
+.ausgabe {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+h3.ausg-subt {
+  margin: 0 0 19px 0 ;
+}
+
+.menu-ausg {
+  border: 1px dotted rgb(39, 77, 39);
+  padding: 0 10px 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  justify-content: space-between;
+}
+
+.menu {
+  width: 44%;
+}
+
+.menu-title {
+  width: 14%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  border-right: 1px dotted #282c34;
+  font-size: 1.2rem;
+  background-color: #282c34;
+  color: #eee;
+  padding: 20px 0 20px 12px;
+}
+
+.menu-content {
+  width: 70%;
+  margin-bottom: 4px;
+}
+
+.menu-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  font-size: calc(10px + 2vmin);
+}

@@ -4,19 +4,19 @@ Sie können sie jetzt oder später bereitstellen. Öffnen Sie zum Bereitstellen 
 
 ## In Google anmelden:
 ```
-`firebase login`
+firebase login
 ```
 
 ## Ihr Projekt initiieren
 Führen Sie diesen Befehl aus dem Stammverzeichnis der App aus:
 ```
-`firebase init`
+firebase init
 ```
 
 ## Web-App bereitstellen, wenn Sie soweit sind
 Legen Sie die statischen Dateien (z. B. HTML, CSS, JS) im Bereitstellungsverzeichnis Ihrer App ab (Standard ist "öffentlich"). Führen Sie anschließend diesen Befehl aus dem Stammverzeichnis der App aus:
 ```
-`firebase deploy`
+firebase deploy
 ```
 
 Nach der Bereitstellung können Sie Ihre App über fir-basic-project-89b65.web.app ansehen

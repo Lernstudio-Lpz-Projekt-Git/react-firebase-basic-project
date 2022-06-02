@@ -1,43 +1,38 @@
 .Home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
 
-    .selectMenu {
-        margin: 20px 0;
-
-
-        .selectBox {
-            width: 622px;
-            height: 54px;
-            border: 1px solid #999;
-            font-size: 22px;
-            color: #099b4b;
-            background-color: #eee;
-            border-radius: 5px;
-            box-shadow: 1px 1px #ccc;
-            padding: 10px;
-            /* Firefox */
-            -moz-appearance: none;
-            /* Safari and Chrome */
-            -webkit-appearance: none;
-            appearance: none;
-
-
-            .classic {
-                background-image:
-                    linear-gradient(45deg, transparent 50%, rgb(5, 81, 60) 50%),
-                    linear-gradient(135deg, rgb(0, 97, 66) 50%, transparent 50%),
-                    linear-gradient(to right, rgb(135, 235, 108), rgb(135, 235, 108));
-                background-position:
-                    calc(100% - 25px) calc(1em + 1px),
-                    calc(100% - 25px) calc(1em + 1px),
-                    100% 0;
-                background-size:
-                    15px 15px,
-                    5px 5px,
-                    2.5em 2.5em;
-                background-repeat: no-repeat;
-            }
-        }
+    .HomeHeader {
+        background-color: #282c34;
+        width: 100%;
+        min-height: 10vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: calc(10px + 2vmin);
+        color: white;
+      }
+    .menu {
+      width: 100%;
+      margin: 20px;
     }
 
+    .loginBtn {
+      text-decoration: none;
+      color: aliceblue;
+    }
 
+}
+
+#root, #container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
 }

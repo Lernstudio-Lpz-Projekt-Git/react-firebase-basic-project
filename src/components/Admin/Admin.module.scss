@@ -1,1 +1,70 @@
-.Admin {}
+.Admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+
+    .HomeHeader {
+        background-color: #282c34;
+        width: 100%;
+        min-height: 10vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: calc(10px + 2vmin);
+        color: white;
+    }
+
+    .menu {
+        width: 100%;
+        margin: 20px;
+    }
+
+    .loginBtn {
+        text-decoration: none;
+        color: aliceblue;
+    }
+
+    .menuList {
+        width: 60%;
+    }
+
+    .menuItems{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .item {
+        border: 1px dotted #282c34;
+        margin: 4px;
+        padding: 10px;
+        width: 100%;
+        list-style: none;
+        font-size: 1.2rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .deleteItem {
+        font-size:28px;
+        color:red
+
+    }
+
+    .updateItem {
+        font-size:28px;
+        color:rgb(10, 137, 36)
+    }
+
+
+
+}

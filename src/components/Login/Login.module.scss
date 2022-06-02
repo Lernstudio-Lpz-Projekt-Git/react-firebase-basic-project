@@ -1,1 +1,42 @@
-.Login {}
+.Login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .HomeHeader {
+        background-color: #282c34;
+        width: 100%;
+        min-height: 10vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        font-size: calc(10px + 2vmin);
+        color: white;
+        margin-bottom: 30px;
+      }
+
+    .loginForm {
+        width: 30%;
+        padding: 30px;
+        border: 1px dotted #282c34;
+    }
+
+    .homeBtn {
+        padding: 5px 10px;
+        font-size: 1rem;
+        margin: 10px 0;
+        text-decoration: none;
+        color: rgb(15, 86, 114);
+    }
+
+    .submitBtn {
+        padding: 5px 10px;
+        font-size: 1rem;
+        margin: 10px 0;
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+    }
+}

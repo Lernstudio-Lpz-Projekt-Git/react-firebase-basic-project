@@ -4,7 +4,7 @@ import { getFirestore } from "@firebase/firestore";
 import "firebase/auth";
 // apiKey: process.env.REACT_APP_FIREBASE_KEY,
 // 
-const dbApp = firebase.initializeApp( {
+const dbWeekApp = firebase.initializeApp( {
   apiKey: "AIzaSyDzhpLS6kDf74DDCvpVmBfQlu1Dgb6rqqA",
   authDomain: "fir-basic-project-89b65.firebaseapp.com",
   projectId: "fir-basic-project-89b65",
@@ -15,6 +15,5 @@ const dbApp = firebase.initializeApp( {
 
 // Initialize Firebase
 //const dbApp = firebase.initializeApp(firebaseConfig);
-const getDB = getFirestore(dbApp);
-export const db  = getDB;
-
+const getWeekDB = getFirestore(dbWeekApp);
+export const firebasedb  = getWeekDB;

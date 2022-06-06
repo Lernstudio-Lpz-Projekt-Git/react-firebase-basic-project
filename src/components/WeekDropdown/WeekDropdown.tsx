@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import shortid from 'shortid';
 import { useState, useEffect, useRef } from "react";
 import styles from "./WeekDropdown.module.scss";
 import {
@@ -7,21 +8,42 @@ import {
   doc,
   getDoc,
   Firestore,
+  query,
+  where,
 } from "firebase/firestore";
-import { db } from "../../services/firebase-config";
+import { firebasedb } from "../../services/firebase-config";
+//import { keywords } from "./../../../node_modules/@webassemblyjs/wast-parser/esm/tokenizer";
 
 interface WeekDropdownProps {}
 
 const WeekDropdown: FC<WeekDropdownProps> = () => {
   const [getWeekById, setWeekById] = useState([]);
   const [getWeeks, setWeeks] = useState([]);
-  const weeksCollectionRef: object = collection(db, "week-days");
-
-
+  const weeksCollectionRef: object = collection(firebasedb, "week-days");
+  // Einzelne Speisen / Menus
+  const [getMenuRef, setMenuRef] = useState([]);
+  const menuRefCollection: object = collection(firebasedb, "fb-menu-db");
+  const dbObjProps = [
+    "montag",
+    "dienstag",
+    "mittwoch",
+    "donnerstag",
+    "freitag",
+    "samstag",
+    "sonnatg",
+  ];
+  const dbSimpleProps = [
+    "title",
+    "sub-title",
+    "start-date",
+    "end-date",
+    "fkref",
+  ];
+  /// GET BY ID : [getWeekById, setWeekById]
   const getWeekByIdFunc = async (ID: any) => {
     console.log(ID);
     if (ID != 0) {
-      const docRef = doc(db, "week-days", ID);
+      const docRef = doc(firebasedb, "week-days", ID);
       const weekIDRef = await getDoc(docRef);
       //console.log("Document data:", weekIDRef.data());
       setWeekById(() => weekIDRef.data());
@@ -38,8 +60,9 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
     getWeekByIdFunc(ID);
   };
 
+  // GET ALL WEEKS : [getWeeks, setWeeks]
   useEffect(() => {
-    const getWeeks = async () => {
+    const getWeeksFunc = async () => {
       const weeksData = await getDocs(weeksCollectionRef);
       setWeeks(
         weeksData.docs.map((weeks) => {
@@ -48,9 +71,24 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
       );
     };
 
-    getWeeks();
+    getWeeksFunc();
   }, []);
 
+  // GET ALL MENUS  [getMenuRef, setMenuRef]
+  useEffect(() => {
+    const getMenuRef = async () => {
+      const menuRefData = await getDocs(menuRefCollection);
+      setMenuRef(
+        menuRefData.docs.map((menus) => {
+          return { ...menus.data(), id: menus.id };
+        })
+      );
+    };
+
+    getMenuRef();
+  }, []);
+
+  /// Render Ausgabe:
   return (
     <div className={styles.WeekDropdown}>
       <div className={styles.selectMenu}>
@@ -78,161 +116,75 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
           if (week === undefined || week.length === 0) {
             return <div key={i}>Bitte eine Woche auswählen.</div>;
           } else {
-            console.log(week);
             return (
-              <div className="main" key="MAIN">
-                <div className="ausgabe">
-                  <h2 className="ausg-title">{week["title"]}</h2>
+              <>
+                <div className="ausgabe" key={shortid.generate()} id={shortid.generate()}>
+                  <h2 className="ausg-title">{getWeekById["title"]}</h2>
                   <h3 className="ausg-subt">
-                    {week["sub-title"]} {week["start-date"]} -{" "}
-                    {week["end-date"]}
+                    {getWeekById["sub-title"]} {getWeekById["start-date"]} -{" "}
+                    {getWeekById["end-date"]}
                   </h3>
                 </div>
-                <div className="menu">
-                  <div className="menu-ausg">
-                    <div className="menu-title">Montag</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["montag"][0]}</h4>
-                      <i>{week["montag"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["montag"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  <div className="menu-ausg">
-                    <div className="menu-title">Dienstag</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["dienstag"][0]}</h4>
-                      <i>{week["dienstag"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["dienstag"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  <div className="menu-ausg">
-                    <div className="menu-title">Mittwoch</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["mittwoch"][0]}</h4>
-                      <i>{week["mittwoch"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["mittwoch"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  <div className="menu-ausg">
-                    <div className="menu-title">Donnerstag</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["donnerstag"][0]}</h4>
-                      <i>{week["donnerstag"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["donnerstag"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  <div className="menu-ausg">
-                    <div className="menu-title">Freitag</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["freitag"][0]}</h4>
-                      <i>{week["freitag"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["freitag"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  <div className="menu-ausg">
-                    <div className="menu-title">Samstag</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["samstag"][0]}</h4>
-                      <i>{week["samstag"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["samstag"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
-                  </div>
-                  <div className="menu-ausg">
-                    <div className="menu-title">Sonntag</div>
-                    <div className="menu-content" key={i}>
-                      <h4>{week["sonnatg"][0]}</h4>
-                      <i>{week["sonnatg"][1]}</i>
-                    </div>
-                    <p className="menu-img">
-                      {week["sonnatg"][2] ? (
-                        <img
-                          src="../src/assets/images/vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      ) : (
-                        <img
-                          src="../src/assets/images/not-vegan.png"
-                          alt="Vegatarisch"
-                        />
-                      )}
-                    </p>
+                <div className="main" key={shortid.generate()}>
+                  <div className="menu">
+                    {dbObjProps.map((prop, index) => {
+                      return (
+                        <div className="menu-ausg" key={shortid.generate()} id={shortid.generate()}>
+                          <div className="menu-title" key={shortid.generate()} id={shortid.generate()}>{prop.toLocaleUpperCase()}</div>
+                          <div className="menu-content" key={shortid.generate()} id={shortid.generate()}>
+                            <h4>{week[prop][0]}</h4>
+                            <i>{week[prop][1]}</i>
+                          </div>
+                          <p className="menu-img" key={shortid.generate()} id={shortid.generate()}>
+                            {week[prop][2] ? (
+                              <img
+                                src="../src/assets/images/vegan.png"
+                                alt="Vegatarisch"
+                              />
+                            ) : (
+                              <img
+                                src="../src/assets/images/not-vegan.png"
+                                alt="Vegatarisch"
+                              />
+                            )}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              </div>
+              </>
             );
           }
+        })}
+      </div>
+      {/* Einzelne Menüs anzeigen */}
+      <div className="menu-ausg" key={shortid.generate()} id={shortid.generate()}>
+        <div className="menu-title" key={shortid.generate()} id={shortid.generate()}>Menu-DB</div>
+        {getMenuRef.map((m) => {
+          return (
+            <>
+              <div className="menu-ausg" key={shortid.generate()} id={shortid.generate()}>
+                <div className="menu-content" key={shortid.generate()} id={shortid.generate()}>
+                  <h4 key={shortid.generate()} id={shortid.generate()}>{m["title"]}</h4>
+                  <i key={shortid.generate()} id={shortid.generate()}>{m["descr"]}</i>
+                </div>
+                <p className="menu-img" key={shortid.generate()} id={shortid.generate()}>
+                  {m["veg"] ? (
+                    <img
+                      src="../src/assets/images/vegan.png"
+                      alt="Vegatarisch"
+                    />
+                  ) : (
+                    <img
+                      src="../src/assets/images/not-vegan.png"
+                      alt="Vegatarisch"
+                    />
+                  )}
+                </p>
+              </div>
+            </>
+          );
         })}
       </div>
     </div>

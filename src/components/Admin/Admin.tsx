@@ -2,15 +2,15 @@ import { collection, getDocs } from "firebase/firestore";
 import React, { FC, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { db } from "../../services/firebase-config";
-import styles from "./Admin.module.scss";
-import Home from "./components/Home/Home";
+import { firebasedb } from "../../services/firebase-config";
+import "./Admin.scss";
+//import Home from "./components/Home/Home";
 
 interface AdminProps {}
 
 const Admin: FC<AdminProps> = () => {
   const [getWeeks, setWeeks] = useState([]);
-  const weeksCollectionRef: object = collection(db, "week-days");
+  const weeksCollectionRef = collection(firebasedb, "week-days");
   const adminSignIn = true;
 
   useEffect(() => {
@@ -27,31 +27,42 @@ const Admin: FC<AdminProps> = () => {
   }, []);
 
   return (
-    <div className={styles.Admin}>
-      <header className={styles.HomeHeader}>
+    <div className="Admin">
+      <header className="HomeHeader">
         <h2>ADMIN des React+Firebase-Basic Project</h2>
         <div className="login">
           <Button variant="success">
-            <Link className={styles.loginBtn} to="/">
+            <Link className="logoutBtn" to="/">
               {adminSignIn ? "Logout" : "SignIn"}
             </Link>
           </Button>
         </div>
       </header>
-      <div className={styles.menuList}>
+      <div className="menuList">
         <h2 className="menuListTitle">Verwaltung der Speisepläne</h2>
-        <ul className={styles.menuItems}>
-        {getWeeks.map((weekDate) => {
+        <ul className="menuItems">
+          {getWeeks.map((weekDate) => {
             return (
-              <li className={styles.item} value={weekDate["id"]} key={weekDate["id"]}>
-                <p>Speiseplan vom {weekDate["start-date"]} {"-"}{" "}
-                {weekDate["end-date"]} <b> ID: {weekDate["id"]}</b></p>
-                <i className="fa fa-trash-o deleteItem"></i>
-                <i className="fa fa-refresh updateItem"></i>
+              <li className="item" value={weekDate["id"]} key={weekDate["id"]}>
+                <p>
+                  Speiseplan vom {weekDate["start-date"]} {"-"}{" "}
+                  {weekDate["end-date"]} <b> (ID: {weekDate["id"]})</b>
+                </p>
+                <div className="editBtn">
+                  <i className="fa fa-refresh updateItem"></i>
+                  <i className="fa fa-trash-o deleteItem"></i>
+                </div>
               </li>
             );
           })}
         </ul>
+      </div>
+      <div className="addMenu">
+        <Button variant="success">
+          <Link className="addMenuBtn" to="/new">
+            Speiseplan hinzufügen
+          </Link>
+        </Button>
       </div>
     </div>
   );

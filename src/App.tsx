@@ -6,6 +6,7 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import { Col, Container, Row } from "react-bootstrap";
 import Admin from "./components/Admin/Admin";
+import NewWeeks from './components/Admin/NewWeeks';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/new" element={<NewWeeks />} />
       </Routes>
       {/* </Col>
     </Row> */}

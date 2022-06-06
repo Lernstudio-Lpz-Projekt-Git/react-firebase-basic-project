@@ -24,16 +24,20 @@
         margin: 20px;
     }
 
-    .loginBtn {
+    .logoutBtn {
         text-decoration: none;
         color: aliceblue;
     }
 
     .menuList {
         width: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-    .menuItems{
+    .menuItems {
         width: 80%;
         display: flex;
         flex-direction: column;
@@ -45,7 +49,7 @@
         border: 1px dotted #282c34;
         margin: 4px;
         padding: 10px;
-        width: 100%;
+        width: 90%;
         list-style: none;
         font-size: 1.2rem;
         display: flex;
@@ -54,17 +58,40 @@
         justify-content: space-between;
     }
 
-    .deleteItem {
-        font-size:28px;
-        color:red
+    .editBtn {
 
+        .deleteItem {
+            width: 44px;
+            padding: 6px;
+            font-size: 28px;
+            color: red;
+            // border: 1px dotted red;
+
+        }
+
+        .updateItem {
+            width: 44px;
+            padding: 6px;
+            font-size: 28px;
+            color: rgb(10, 137, 36);
+            //border: 1px dotted rgb(10, 137, 36)
+        }
     }
 
-    .updateItem {
-        font-size:28px;
-        color:rgb(10, 137, 36)
+
+    b {
+        font-weight: 300;
+        font-size: 1.1rem;
     }
 
+    .addMenu {
+        width: 50%;
+
+        .addMenuBtn {
+            text-decoration: none;
+            color: aliceblue;
+        }
+    }
 
 
 }

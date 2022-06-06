@@ -1,3 +1,5 @@
+@import "../../css-presets.scss";
+
 .WeekDropdown {
     display: flex;
     flex-direction: column;
@@ -10,7 +12,7 @@
         .selectBox {
             width: 622px;
             height: 54px;
-            border: 1px solid #999;
+            border: $borderSize solid #999;
             font-size: 22px;
             color: #099b4b;
             background-color: #eee;

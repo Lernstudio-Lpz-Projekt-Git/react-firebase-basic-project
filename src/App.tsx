@@ -10,12 +10,12 @@ import NewWeeks from './components/Admin/NewWeeks';
 
 function App() {
   return (
-    // <div className="App">
-    //   <Home />
+    <div className="App">
+    {/*//   <Home />
     //   <Login />
     // </div>
-    <Container>
-      {/* <Row>
+    //<Container>
+       <Row>
         <Col> */}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,8 +24,9 @@ function App() {
         <Route path="/new" element={<NewWeeks />} />
       </Routes>
       {/* </Col>
-    </Row> */}
-    </Container>
+    </Row> 
+    //</Container>*/}
+    </div>
   );
 }
 

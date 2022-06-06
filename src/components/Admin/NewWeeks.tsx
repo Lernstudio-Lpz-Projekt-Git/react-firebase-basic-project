@@ -14,8 +14,21 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   const [getMenus, setMenus] = useState([]);
   const menuCollectionRef = collection(firebasedb, "fb-menu-db");
   // Date Picker for Start / End of Week
-  const [getStartDate, setStartDate] = useState(new Date());
-  const [getEndDate, setEndDate] = useState(new Date());
+  //const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const currStartDate = new Date().toLocaleString("de-DE", {
+    timeZone: "Europe/Berlin",
+    day: '2-digit',
+    month: '2-digit',
+  });
+
+  const currEndDate = new Date().toLocaleString("de-DE", {
+    timeZone: "Europe/Berlin",
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+  const [getStartDate, setStartDate] = useState(currStartDate);
+  const [getEndDate, setEndDate] = useState(currEndDate);
   const adminSignIn = true;
 
   const dbObjProps = [
@@ -64,27 +77,45 @@ const NewWeeks: FC<NewWeeksProps> = () => {
               <Form.Group controlId="startDate">
                 <span className="dateTitle">Anfang der Woche:</span>
                 <Form.Control
-                type="date"
-                name="startDate"
-                placeholder="Startdatum"
-                value={getStartDate.toDateString()}
-                onChange={(e) => setStartDate(new Date(e.target.value))}
+                  type="date"
+                  pattern="\d{2}-\d{2}-\d{4}"
+                  name="startdate"
+                  placeholder="Startdatum"
+                  value={getStartDate.toLocaleString()}
+                  onChange={(e) =>
+                    setStartDate(
+                      new Date(e.target.value).toLocaleString("de-DE", {
+                        timeZone: "Europe/Berlin",
+                        day: '2-digit',
+                        month: '2-digit',
+                      })
+                    )
+                  }
                 />
               </Form.Group>
               <Form.Group controlId="endDate">
                 <span className="dateTitle">Ende der Woche:</span>
                 <Form.Control
                   type="date"
-                  name="endDate"
+                  pattern="\d{2}-\d{2}-\d{4}"
+                  name="enddate"
                   placeholder="Enddatum"
-                  value={getEndDate.toDateString()}
-                  onChange={(e) => setEndDate(new Date(e.target.value))}
+                  value={getEndDate}
+                  onChange={(e) =>
+                    setEndDate(
+                      new Date(e.target.value).toLocaleString("de-DE", {
+                        timeZone: "Europe/Berlin",
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                      })
+                    )
+                  }
                 />
               </Form.Group>
             </div>
-           <p>{getStartDate.getDate()}</p> 
             <div className="menuListTitle">
-              <span>Neuer Wochenplan:</span> <span>23.08.2022</span>
+              <span>Neuer Wochenplan vom</span> <span>{getStartDate}-{getEndDate}</span>
             </div>
             <ul className="weekList">
               {dbObjProps.map((prop, index) => {
@@ -137,6 +168,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
             </ul>
           </div>
         </div>
+        {/* Save Button */}
         <div className="saveWeek">
           <Button size="lg" variant="success">
             <Link className="saveBtn" to="/admin">

@@ -1,16 +1,23 @@
+@import "./css-presets.scss";
+
+* {
+  box-sizing: border-box;
+}
+
 body,
 html {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  overflow-y: scroll;
+  //overflow-y: scroll;
 }
 
 #root, .container {
-  width: 100% !important;
-  max-width: 100%;
-  margin: 0 !important;
-  padding: 0 !important;
+  display: block;
+  // width: 100% !important;
+  // max-width: 100%;
+  // margin: 0 !important;
+  // padding: 0 !important;
 }
 
 h1,
@@ -67,7 +74,7 @@ img {
 .selectBox {
   width: 622px;
   height: 54px;
-  border: 1px solid #999;
+  border: $borderSize solid #999;
   font-size: 22px;
   color: #099b4b;
   background-color: #eee;
@@ -114,7 +121,7 @@ select.classic {
 
 
 .menu-ausg {
-  border: 1px dotted rgb(39, 77, 39);
+  border: $borderSize dotted rgb(39, 77, 39);
   min-height: 99px;
   padding: 0 10px 0 0;
   display: flex;
@@ -135,7 +142,7 @@ select.classic {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  border-right: 1px dotted #282c34;
+  border-right: $borderSize dotted #282c34;
   font-size: 1.14rem;
   background-color: #077635;
   color: #eee;

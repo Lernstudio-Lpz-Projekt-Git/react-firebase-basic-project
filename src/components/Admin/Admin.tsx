@@ -33,7 +33,7 @@ const Admin: FC<AdminProps> = () => {
         <div className="login">
           <Button variant="success">
             <Link className="logoutBtn" to="/">
-              {adminSignIn ? "Logout" : "SignIn"}
+              {adminSignIn ? "Abmelden" : "Anmelden"}
             </Link>
           </Button>
         </div>

@@ -6,26 +6,22 @@ import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
 import { Col, Container, Row } from "react-bootstrap";
 import Admin from "./components/Admin/Admin";
-import NewWeeks from './components/Admin/NewWeeks';
+import NewWeeks from "./components/Admin/NewWeeks";
+import { UserAuthContextProvider } from "./services/UserAuthContext";
 
 function App() {
   return (
     <div className="App">
-    {/*//   <Home />
-    //   <Login />
-    // </div>
-    //<Container>
-       <Row>
-        <Col> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/new" element={<NewWeeks />} />
-      </Routes>
-      {/* </Col>
-    </Row> 
-    //</Container>*/}
+      {/* <Container> */}
+        <UserAuthContextProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/new" element={<NewWeeks />} />
+          </Routes>
+        </UserAuthContextProvider>
+      {/* </Container> */}
     </div>
   );
 }

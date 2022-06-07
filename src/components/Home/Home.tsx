@@ -16,7 +16,7 @@ const Home: FC<HomeProps> = () => {
         <h2>HOME des React+Firebase-Basic Project</h2>
         <div className='login'>
           <Button variant="success">
-            <Link className={styles.loginBtn} to="/Login">SignIn</Link>
+            <Link className={styles.loginBtn} to="/Login">Anmelden</Link>
           </Button>
         </div>
       </header>

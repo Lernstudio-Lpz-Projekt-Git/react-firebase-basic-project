@@ -4,9 +4,10 @@ import shortid from "shortid";
 import { FaPlusCircle } from "react-icons/fa";
 import React, { FC, useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { firebasedb } from "../../services/firebase-config";
 import "./NewWeeks.scss";
+import { useUserAuth } from "../../services/UserAuthContext";
 
 interface NewWeeksProps {}
 
@@ -54,15 +55,27 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     getMenus();
   }, []);
 
+  
+  const {user, appLogout} = useUserAuth();
+  console.log(user)
+
+  const navigate = useNavigate();
+  const handleLogOut = async () => {
+    try {
+      await appLogout();
+      navigate("/");
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   return (
     <div className="Admin">
       <header className="HomeHeader">
         <h2>ADMIN: Neuen Speiseplan anlegen</h2>
         <div className="login">
-          <Button variant="success">
-            <Link className="logoutBtn" to="/">
-              {adminSignIn ? "Abmelden" : "Anmelden"}
-            </Link>
+          <Button className="logoutBtn" variant="success" onClick={handleLogOut}>
+             Abmelden
           </Button>
         </div>
       </header>
@@ -71,6 +84,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
         key={shortid.generate()}
         id={shortid.generate()}
       >
+        <h4>Hallo { user.email.split('@', 1) }</h4>
         <div className="weekGenerator">
           <div className="showWeekForm">
             <div className="col-md-8 dateForm">

@@ -11,12 +11,17 @@ const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState("");
+
   // function signUp(email: string, password: string) {
   //   return createUserWithEmailAndPassword(auth, email, password);
   // }
 
   function appLogIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
+  }
+
+  function appLogout() {
+    return signOut(auth);
   }
 
   useEffect(() => {
@@ -29,7 +34,7 @@ export function UserAuthContextProvider({ children }) {
   }, []);
 
   return (
-    <userAuthContext.Provider value={{ user, appLogIn }}>
+    <userAuthContext.Provider value={{ user, appLogIn, appLogout }}>
       {children}
     </userAuthContext.Provider>
   );

@@ -7,25 +7,28 @@
     align-items: center;
     justify-content: flex-start;
     text-align: center;
-    // width: 90%;
-    // height: 100vh;
-    // margin: 30px 0;
-    border: $borderSize dotted #aaa;
+    //height: 100%;
+    width: 90%;
+    margin: 0;
+    //border: 4px dotted $border-color;
 
     .weekGenerator {
         display: flex;
         flex-direction: row;
-        align-items: start;
+        align-items: flex-start;
         justify-content: space-between;
         text-align: center;
-        width: 90vw;
-        margin: 30px 0;
-        border: $borderSize dotted #aaa;
+        width: 100%;
+        margin-top: 20px;
+        //border: $borderSize double $border-color;
 
         .showWeekForm {
-            width: 100%;
-            border: 0px dotted #aaa;
+            width: 50%;
+            //border: 6px dotted rgb(9, 236, 17);
             //height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
 
             .dateForm {
                 display: flex;
@@ -33,10 +36,8 @@
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-
-                * {
-                    width: 100%;
-                }
+                height: 65px;
+                border: $borderSize dotted $border-color;
 
                 .dateTitle {
                     width: 200px;
@@ -54,145 +55,234 @@
                 color: aliceblue;
                 font-size: 2.1rem;
                 padding: 5px 0;
+                min-height: 64px;
             }
 
             .weekList {
                 height: auto;
-            }
-
-            ul {
+                min-height: 600px;
                 padding: 0;
                 margin: 0;
+
+                .weekDropzone {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    text-align: left;
+                    border: $borderSize dotted rgb(99, 99, 99);
+
+                    .day {
+                        background-color: rgb(10, 56, 60);
+                        color: aliceblue !important;
+                        padding-left: 10px;
+                        width: 17%;
+                        height: 80px;
+                        text-align: left;
+                        display: flex;
+                        align-items: center;
+                        font-size: 1rem;
+                        font-weight: 100;
+                    }
+
+                    .DropData {
+                        width: 80%;
+                    }
+                }
             }
 
-            li {
-                font-size: 1rem;
-            }
-        }
+            .saveWeek {
+                margin: 20px 0;
+                //align-self:stretch;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                //justify-content: right;
+                //border: $borderSize dotted rgb(255, 0, 153);
 
-    }
-
-    .weekDropzone {
-        width: 100%;
-        height: 70px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        text-align: left;
-        border: $borderSize dotted #aaa;
-
-        .day {
-            background-color: rgb(10, 56, 60);
-            color: aliceblue !important;
-            padding-left: 10px;
-            width: 17%;
-            height: 70px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-            font-weight: 100;
-        }
-
-        .DropData {
-            width: 80%;
-        }
-    }
-
-    .mealContainer {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        margin-left: 40px;
-
-        .mealListTitle {
-            position: relative;
-            background-color: #362c20;
-            color: aliceblue;
-            font-size: 2.1rem;
-            padding: 5px 0;
-            width: 100%;
-
-            .FaPlusCircle {
-                position: absolute;
-                right: 20px;
-                top: 15px;
-                cursor: pointer;
-                color: rgb(9, 249, 9);
+                a {
+                    text-decoration: none;
+                    color: aliceblue;
+                }
             }
         }
 
-        .mealItems {
-            border: $borderSize dotted #282c34;
-            height: 50vh;
-            padding: 0;
-            width: 100%;
-            list-style: none;
+        .mealContainer {
+            width: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            text-align: center;
+            margin-left: 40px;
+            min-height: 600px;
 
-            li.mealItem:hover {
-                background-color: rgb(255, 184, 62);
-            }
-
-            li.mealItem {
-                width: 100%;
+            .menuFilter {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: flex-start;
-                border: $borderSize dotted #282c34;
-                margin: 2px 0;
-                min-height: 60px;
-                cursor: move;
+                justify-content: center;
+                border: $borderSize dotted $border-color;
+                height: 65px;
+                width: 100%;
 
-                p {
-                    margin: 4px;
+                .filterTitle {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: 100;
+                    font-size: 1.4rem;
+                    padding-top: 16px;
+                    padding-right: 20px;
                 }
 
-                p.t {
-                    text-align: left;
-                    width: 20%;
-                    margin: 4px;
-                    font-size: 1.1rem;
-
-                    b {
-                        font-weight: 600;
-                    }
+                .filterInput {
+                    min-height: 35px;
+                    font-size: 1.2rem;
+                    padding: 6px;
                 }
 
-                p.d {
-                    text-align: left;
-                    width: 25%;
-                    margin: 4px;
-                    font-size: 1.1rem;
-                }
-
-                p.veg {
-                    text-align: left;
-                    width: 20%;
-                    margin: 4px;
-                    font-size: .9rem;
+                .filterIcon {
+                    height: 29px;
+                    width: 29px;
+                    color: rgb(0, 106, 53);
+                    margin-left: 22px;
+                    cursor: pointer;
                 }
             }
 
+            .showAddmenu {
+                height: 220px !important;
+                opacity: 1 !important;
+            }
+
+            .addMenuForm {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                margin: 10px;
+                background-color: rgb(161, 255, 192);
+                transition: height 1s, opacity 0.5s;
+                height: 0px;
+                opacity: 0;
+
+                .addTitle,
+                .addDescr {
+                    width: 80%;
+                    height: 39px;
+                    font-size: 1.2rem;
+                    padding: 6px;
+                    margin: 10px;
+                }
+
+                .addSubmit {
+                    width: 30%;
+                    min-width: 99px;
+                    margin-bottom: 20px;
+                }
+
+                .checkBox {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+
+                    .addVeg {
+                        width: 24px;
+                        height: 24px;
+                        margin: 10px;
+                    }
+
+                    .checkBox-label {
+                        align-items: center;
+                        margin: 10px 0;
+                    }
+                }
+            }
+
+            .mealListTitle {
+                position: relative;
+                background-color: #362c20;
+                color: aliceblue;
+                font-size: 2.1rem;
+                padding: 5px 0;
+                width: 100%;
+
+                .FaPlusCircle {
+                    position: absolute;
+                    right: 20px;
+                    top: 15px;
+                    cursor: pointer;
+                    color: rgb(9, 249, 9);
+                }
+            }
+
+            .mealItems {
+                //border: $borderSize dotted $border-color;
+                //height: 100vh;
+                max-height: 800px;
+                overflow-y: scroll;
+                padding: 0;
+                width: 100%;
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                background-color: rgb(255, 245, 201);
+
+                li.mealItem:hover {
+                    background-color: rgb(255, 184, 62);
+                }
+
+                li.mealItem {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+                    border: $borderSize dotted #282c34;
+                    margin: 2px 0;
+                    min-height: 60px;
+                    padding-left: 10px;
+                    cursor: move;
+
+                    p {
+                        margin: 4px;
+                    }
+
+                    p.t {
+                        text-align: left;
+                        width: 25%;
+                        margin: 4px;
+                        font-size: 1.1rem;
+
+                        b {
+                            font-weight: 600;
+                        }
+                    }
+
+                    p.d {
+                        text-align: left;
+                        width: 25%;
+                        margin: 4px;
+                        font-size: 1.1rem;
+                    }
+
+                    p.veg {
+                        text-align: left;
+                        width: 15%;
+                        margin: 4px;
+                        font-size: .9rem;
+                    }
+                }
+
+            }
         }
+
     }
-
-    .saveWeek {
-        margin-right: 200px;
-        width: 90vw;
-
-        a {
-            text-decoration: none;
-            color: aliceblue;
-        }
-    }
-
 }

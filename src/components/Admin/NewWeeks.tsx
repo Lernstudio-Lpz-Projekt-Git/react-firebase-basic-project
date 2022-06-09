@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { firebasedb } from "../../services/firebase-config";
 import "./NewWeeks.scss";
 import { useUserAuth } from "../../services/UserAuthContext";
+import { FaSearch } from "react-icons/fa";
 
 interface NewWeeksProps {}
 
@@ -18,15 +19,15 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   //const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const currStartDate = new Date().toLocaleString("de-DE", {
     timeZone: "Europe/Berlin",
-    day: '2-digit',
-    month: '2-digit',
+    day: "2-digit",
+    month: "2-digit",
   });
 
   const currEndDate = new Date().toLocaleString("de-DE", {
     timeZone: "Europe/Berlin",
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
   const [getStartDate, setStartDate] = useState(currStartDate);
   const [getEndDate, setEndDate] = useState(currEndDate);
@@ -55,9 +56,8 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     getMenus();
   }, []);
 
-  
-  const {user, appLogout} = useUserAuth();
-  console.log(user)
+  const { user, appLogout } = useUserAuth();
+  console.log(user);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
@@ -65,17 +65,28 @@ const NewWeeks: FC<NewWeeksProps> = () => {
       await appLogout();
       navigate("/");
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
+
+  // show add menu form
+
+  const showAddMenuForm = () => {
+    let showMenuElem = document.getElementById("addMenuForm");
+    showMenuElem.classList.toggle("showAddmenu");
+  };
 
   return (
     <div className="Admin">
       <header className="HomeHeader">
         <h2>ADMIN: Neuen Speiseplan anlegen</h2>
         <div className="login">
-          <Button className="logoutBtn" variant="success" onClick={handleLogOut}>
-             Abmelden
+          <Button
+            className="logoutBtn"
+            variant="success"
+            onClick={handleLogOut}
+          >
+            Abmelden
           </Button>
         </div>
       </header>
@@ -84,10 +95,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
         key={shortid.generate()}
         id={shortid.generate()}
       >
-        <h4>Hallo { user.email.split('@', 1) }</h4>
+        <h4>Hallo {user.email.split("@", 1)}</h4>
         <div className="weekGenerator">
           <div className="showWeekForm">
-            <div className="col-md-8 dateForm">
+            <div className="dateForm">
               <Form.Group controlId="startDate">
                 <span className="dateTitle">Anfang der Woche:</span>
                 <Form.Control
@@ -100,8 +111,8 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                     setStartDate(
                       new Date(e.target.value).toLocaleString("de-DE", {
                         timeZone: "Europe/Berlin",
-                        day: '2-digit',
-                        month: '2-digit',
+                        day: "2-digit",
+                        month: "2-digit",
                       })
                     )
                   }
@@ -119,9 +130,9 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                     setEndDate(
                       new Date(e.target.value).toLocaleString("de-DE", {
                         timeZone: "Europe/Berlin",
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
                       })
                     )
                   }
@@ -129,7 +140,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
               </Form.Group>
             </div>
             <div className="menuListTitle">
-              <span>Neuer Wochenplan vom</span> <span>{getStartDate}-{getEndDate}</span>
+              <span>Neuer Wochenplan vom</span>{" "}
+              <span>
+                {getStartDate}-{getEndDate}
+              </span>
             </div>
             <ul className="weekList">
               {dbObjProps.map((prop, index) => {
@@ -145,50 +159,93 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                 );
               })}
             </ul>
+            {/* Save Button */}
+            <div className="saveWeek">
+              <Button size="lg" variant="success">
+                <Link className="saveBtn" to="/admin">
+                  Speichern
+                </Link>
+              </Button>
+            </div>
           </div>
           <div className="mealContainer">
-            <div className="mealListTitle">
-              Gespeicherte Speisen: <FaPlusCircle className="FaPlusCircle" />
+            <div className="menuFilter">
+              <p className="filterTitle">Menüs Filtern:{""}</p>
+              <input type="text" placeholder="Suche" className="filterInput" />
+              <FaSearch className="filterIcon" />
             </div>
-            <ul className="mealItems">
-              {getMenus.map((menusData, index) => {
-                return (
-                  <li
-                    className="mealItem"
-                    value={menusData["id"]}
-                    key={menusData["id"]}
-                    draggable
-                  >
-                    <p
-                      className="t"
-                      key={shortid.generate()}
-                      id={shortid.generate()}
+            <div className="mealListTitle">
+              <span className="t">
+                Gespeicherte Speisen:{" "}
+                <FaPlusCircle
+                  className="FaPlusCircle"
+                  onClick={showAddMenuForm}
+                />
+              </span>
+            </div>
+            <div className="addMenuForm " id="addMenuForm">
+              <input
+                type="text"
+                className="addTitle"
+                placeholder="Titel der Speise"
+              />
+              <input
+                type="text"
+                className="addDescr"
+                placeholder="Kurze Beschreibunge"
+              />
+              <div className="checkBox">
+                <input
+                  type="checkbox"
+                  id="addVeg"
+                  name="addVeg"
+                  value="0"
+                  className="addVeg"
+                />
+                <label className="checkBox-label" for="addVeg">
+                  Vegetarisch
+                </label>
+              </div>
+              <Button className="addSubmit" variant="success">
+                Speichern
+              </Button>
+            </div>
+            <div className="mealContent">
+              <ul className="mealItems">
+                {getMenus.map((menusData, index) => {
+                  return (
+                    <li
+                      className="mealItem"
+                      value={menusData["id"]}
+                      key={menusData["id"]}
+                      draggable
                     >
-                      {" "}
-                      <b>
-                        {index + 1}. {menusData["title"]}:
-                      </b>
-                    </p>
-                    <p className="d">
-                      {menusData["descr"].split(" ", 3).map((e) => e + " ")} ...
-                    </p>
-                    <p className="veg">
-                      ({menusData["veg"] ? "Vegetarisch" : "Nicht Vegetarisch"})
-                    </p>
-                    <p>ID: {menusData.id}</p>
-                  </li>
-                );
-              })}
-            </ul>
+                      <p
+                        className="t"
+                        key={shortid.generate()}
+                        id={shortid.generate()}
+                      >
+                        {" "}
+                        <b>
+                          {index + 1}. {menusData["title"]}:
+                        </b>
+                      </p>
+                      <p className="d">
+                        {menusData["descr"].split(" ", 3).map((e) => e + " ")}{" "}
+                        ...
+                      </p>
+                      <p className="veg">
+                        (
+                        {menusData["veg"] ? "Vegetarisch" : "Nicht Vegetarisch"}
+                        )
+                      </p>
+                      <p>ID: {menusData.id}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
-        </div>
-        {/* Save Button */}
-        <div className="saveWeek">
-          <Button size="lg" variant="success">
-            <Link className="saveBtn" to="/admin">
-              Speichern
-            </Link>
-          </Button>
         </div>
       </div>
     </div>

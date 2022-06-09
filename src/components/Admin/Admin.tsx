@@ -18,7 +18,7 @@ const Admin: FC<AdminProps> = () => {
       const weeksData = await getDocs(weeksCollectionRef);
       setWeeks(
         weeksData.docs.map((weeks) => {
-          return { ...weeks.data(), id: weeks.id };
+          return { id: weeks.id, ...weeks.data() };
         })
       );
     };
@@ -26,7 +26,7 @@ const Admin: FC<AdminProps> = () => {
     getWeeks();
   }, []);
 
-  const {user, appLogout} = useUserAuth();
+  const {user, appLogIn, appLogout} = useUserAuth();
   console.log(user)
   
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Admin: FC<AdminProps> = () => {
     try {
       await appLogout();
       navigate("/");
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message)
     }
   }

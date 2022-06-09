@@ -9,7 +9,7 @@ import { useUserAuth } from "../../services/UserAuthContext";
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
-  const { user, appLogout } = useUserAuth();
+  const { user, appLogin, appLogout } = useUserAuth();
   console.log(user);
 
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Home: FC<HomeProps> = () => {
   const handleLogin = () => {
     try {
       navigate("/admin");
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message);
     }
   };

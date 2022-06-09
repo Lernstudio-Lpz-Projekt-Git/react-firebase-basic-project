@@ -35,7 +35,7 @@ interface WeekDropdownProps {}
 const WeekDropdown: FC<WeekDropdownProps> = () => {
   const [getWeekById, setWeekById] = useState([]);
   const [getWeeks, setWeeks] = useState([]);
-  const weeksCollectionRef: object = collection(
+  const weeksCollectionRef = collection(
     firebasedb,
     "week-days"
   ).withConverter(null);
@@ -66,9 +66,9 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
       const docRef = doc(firebasedb, "week-days", ID);
       const weekIDRef = await getDoc(docRef);
       console.log("Document data:", weekIDRef.data());
-      setWeekById(() => weekIDRef.data());
+      setWeekById(():any => weekIDRef.data());
     } else {
-      setWeekById(() => {
+      setWeekById(():any => {
         [];
       });
     }

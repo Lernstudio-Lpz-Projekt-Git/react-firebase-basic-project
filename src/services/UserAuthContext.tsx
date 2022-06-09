@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebase-config";
 
-const userAuthContext = createContext();
+const userAuthContext = createContext("");
 
 export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState("");
@@ -25,7 +25,7 @@ export function UserAuthContextProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribte = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribte = onAuthStateChanged(auth, (currentUser:any) => {
       setUser(currentUser);
     });
     return () => {

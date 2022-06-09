@@ -64,7 +64,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     try {
       await appLogout();
       navigate("/");
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message);
     }
   };
@@ -73,7 +73,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
 
   const showAddMenuForm = () => {
     let showMenuElem = document.getElementById("addMenuForm");
-    showMenuElem.classList.toggle("showAddmenu");
+    showMenuElem?.classList.toggle("showAddmenu");
   };
 
   return (

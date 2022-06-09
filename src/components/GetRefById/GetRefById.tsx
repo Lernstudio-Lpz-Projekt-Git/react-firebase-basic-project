@@ -8,8 +8,7 @@ import {
 import React, { FC, useEffect, useState } from "react";
 import { firebasedb } from "../../services/firebase-config";
 import styles from "./GetRefById.module.scss";
-import { child, get, getDatabase, onValue, ref } from "firebase/database";
-import { ArrayExpression } from './../../../node_modules/@rollup/plugin-node-resolve/node_modules/@types/estree/index.d';
+import { getDatabase, onValue, ref } from "firebase/database";
 
 interface GetRefByIdProps {}
 
@@ -31,15 +30,15 @@ const GetRefById: FC<GetRefByIdProps> = () => {
   // END GETTING
 
   useEffect(() => {
-    const getWeekByIdFunc = async (ID: string) => {
+    const getWeekByIdFunc = async (ID: string | number) => {
       console.log(ID);
       if (ID != 0) {
         const docRef = doc(firebasedb, "week-days", ID);
         const weekIDRef = await getDoc(docRef);
         console.log("GetRefById data:", weekIDRef.data());
-        setWeekById(() => weekIDRef.data());
+        setWeekById(():any => weekIDRef.data());
       } else {
-        setWeekById(() => {
+        setWeekById(():any => {
           [];
         });
       }

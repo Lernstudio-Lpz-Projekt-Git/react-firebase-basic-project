@@ -2,6 +2,7 @@ import * as firebase from "firebase/app";
 //import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 // apiKey: process.env.REACT_APP_FIREBASE_KEY,
 // 
 const firebaseConfig = {
@@ -18,3 +19,4 @@ const dbApp = firebase.initializeApp(firebaseConfig);
 const getWeekDB = getFirestore(dbApp);
 export const auth = getAuth(dbApp);
 export const firebasedb  = getWeekDB;
+export const db = getDatabase();

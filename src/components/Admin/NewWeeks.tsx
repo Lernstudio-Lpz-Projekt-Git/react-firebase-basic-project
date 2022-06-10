@@ -3,12 +3,13 @@ import shortid from "shortid";
 // https://react-icons.github.io/react-icons/icons?name=fa
 import { FaPlusCircle } from "react-icons/fa";
 import React, { FC, useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { firebasedb } from "../../services/firebase-config";
+import { firebasedb, db } from "../../services/firebase-config";
 import "./NewWeeks.scss";
 import { useUserAuth } from "../../services/UserAuthContext";
 import { FaSearch } from "react-icons/fa";
+import { set, ref } from "firebase/database";
 
 interface NewWeeksProps {}
 
@@ -57,21 +58,50 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   }, []);
 
   const { user, appLogout } = useUserAuth();
-  console.log(user);
+  //console.log(user);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
     try {
       await appLogout();
       navigate("/");
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error.message);
     }
   };
 
   // show add menu form
+  const [menuTitle, setMenuTitle] = useState("");
+  const [menuDescr, setMenuDescr] = useState("");
+  const [menuVeg, setMenuVeg] = useState(false);
 
-  const showAddMenuForm = () => {
+  const handleTitleChange = (e:any) => {
+    e.preventDefault();
+    setMenuTitle(e.target.value);
+  };
+
+  const handleDescrChang = (e:any) => {
+    e.preventDefault();
+    setMenuDescr(e.target.value);
+  };
+
+  const handleVegChange = (e:any) => {
+    e.preventDefault();
+    setMenuVeg(e.target.checked);
+  };
+
+  const writeToDatabase = (e:any) => {
+    e.preventDefault();
+    const uID = shortid.generate();
+    set(ref(db, `/fb-menu-db`), { menuTitle, menuDescr, menuVeg });
+  };
+
+  const onSubmitHandle = () => {
+    console.log("Hallo onSubmitHandle")
+  }
+
+  const showAddMenuForm = (e:any) => {
+    e.preventDefault();
     let showMenuElem = document.getElementById("addMenuForm");
     showMenuElem?.classList.toggle("showAddmenu");
   };
@@ -176,42 +206,68 @@ const NewWeeks: FC<NewWeeksProps> = () => {
             </div>
             <div className="mealListTitle">
               <span className="t">
-                Gespeicherte Speisen:{" "}
+                {getMenus.length}{" "}Gespeicherte Speisen:
                 <FaPlusCircle
                   className="FaPlusCircle"
                   onClick={showAddMenuForm}
                 />
               </span>
             </div>
-            <div className="addMenuForm " id="addMenuForm">
+            <div className="addMenuForm showAddmenu" id="addMenuForm">
+              <>
+              <Form onSubmit={onSubmitHandle}>
+              <div className="form-group">
               <input
                 type="text"
+                id="addTitleField"
                 className="addTitle"
                 placeholder="Titel der Speise"
+                value={menuTitle}
+                //onChange={handleDescrChang}
+                onChange={(e) => setMenuTitle(e.target.value)}
               />
+              </div>
+              <div className="form-group">
               <input
                 type="text"
+                id="addDescrField"
                 className="addDescr"
                 placeholder="Kurze Beschreibunge"
-              />
+                value={menuDescr}
+                onChange={handleDescrChang}
+              /></div>
+              <div className="form-group">
               <div className="checkBox">
                 <input
                   type="checkbox"
                   id="addVeg"
                   name="addVeg"
-                  value="0"
+                  value={menuVeg}
                   className="addVeg"
+                  onChange={handleVegChange}
                 />
-                <label className="checkBox-label" for="addVeg">
+                <label className="checkBox-label" htmlFor="addVeg">
                   Vegetarisch
                 </label>
+                </div>
               </div>
-              <Button className="addSubmit" variant="success">
+              <Button
+                className="addSubmit"
+                variant="success"
+                onClick={writeToDatabase}
+              >
                 Speichern
               </Button>
+              </Form>
+              </>
             </div>
             <div className="mealContent">
               <ul className="mealItems">
+                <li className="mealItem">
+                  <p className="t"> {menuTitle} </p>
+                  <p className="d"> {menuDescr} </p>
+                  <p className="veg"> {menuVeg ? "Vegetarisch" : "Nicht Vegetarisch"} </p>
+                </li>
                 {getMenus.map((menusData, index) => {
                   return (
                     <li

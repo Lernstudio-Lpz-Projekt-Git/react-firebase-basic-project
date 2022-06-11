@@ -183,7 +183,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                 />
               </span>
             </div>
-            <div className="addMenuForm showAddmenu" id="addMenuForm">
+            <div className="addMenuForm" id="addMenuForm">
               <NewMenuForm />
             </div>
             <div className="mealContent">

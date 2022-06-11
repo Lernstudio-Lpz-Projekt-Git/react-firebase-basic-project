@@ -24,6 +24,10 @@ export function UserAuthContextProvider({ children }) {
     return signOut(auth);
   }
 
+  function getCurrentUser() {
+    return user;
+  }
+
   useEffect(() => {
     const unsubscribte = onAuthStateChanged(auth, (currentUser:any) => {
       setUser(currentUser);
@@ -34,7 +38,7 @@ export function UserAuthContextProvider({ children }) {
   }, []);
 
   return (
-    <userAuthContext.Provider value={{ user, appLogIn, appLogout }}>
+    <userAuthContext.Provider value={{ user, appLogIn, appLogout, getCurrentUser }}>
       {children}
     </userAuthContext.Provider>
   );

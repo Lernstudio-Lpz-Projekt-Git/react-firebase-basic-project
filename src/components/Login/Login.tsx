@@ -19,9 +19,10 @@ const Login: FC<LoginProps> = () => {
     e.preventDefault();
     setError("");
     try {
-      await appLogIn(getEmail, getPassword);
+      const currUser = await appLogIn(getEmail, getPassword);
+      console.log("App-Login:", currUser.uid)
       navigate("/admin");
-    } catch (err) {
+    } catch (err:any) {
       setError(err.message);
     }
   };

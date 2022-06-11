@@ -1,11 +1,12 @@
 import { FC, useEffect, useRef, useState } from "react";
 import styles from "./NewMenuForm.module.scss";
 import shortid from "shortid";
-import { db } from "../../services/firebase-config";
-import { set, ref } from "firebase/database";
+import { db, firebasedb } from "../../services/firebase-config";
+import { set, ref, query } from "firebase/database";
 import { Button, Form, FormGroup } from "react-bootstrap";
-import React from "react";
-import { FaPassport } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
+import { useUserAuth } from "../../services/UserAuthContext";
+import { collection, doc, getDocs, setDoc, where } from "firebase/firestore";
 
 interface NewMenuFormProps {}
 
@@ -30,18 +31,33 @@ export const NewMenuForm: FC<NewMenuFormProps> = () => {
   const handleVegChange = (e: any) => {
     //e.preventDefault();
     setMenuVeg(!menuVeg);
-    if (e.target.checked){
-      e.target.removeAttribute('checked');
-   } else {
-      e.target.setAttribute('checked', true);
-   }
+    if (e.target.checked) {
+      e.target.removeAttribute("checked");
+    } else {
+      e.target.setAttribute("checked", true);
+    }
     console.log("Veg", menuVeg);
   };
 
-  const writeToDatabase = (e: any) => {
+  const { user } = useUserAuth();
+  const writeToDatabase = async (e: any) => {
     e.preventDefault();
-    const uID = shortid.generate();
-    set(ref(db, `/fb-menu-db`), { menuTitle, menuDescr, menuVeg });
+    console.log("newMenuCurrentUser:", user.uid);
+    const uID = uuidv4().replaceAll("-", "").substr(0, 19);
+    const getAuthConnection: any = collection(firebasedb, "users");
+    const queryResult: any = query(
+      getAuthConnection,
+      where("uid", "==", user.uid)
+    );
+    const setDocData = {
+      title: menuTitle,
+      descr: menuDescr,
+      veg: menuVeg,
+    };
+    setDoc(doc(firebasedb, `/fb-menu-db/${uID}`), setDocData);
+    setMenuDescr("");
+    setMenuTitle("");
+    setMenuVeg(false);
   };
 
   const onSubmitHandle = () => {

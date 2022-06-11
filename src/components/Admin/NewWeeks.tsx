@@ -58,7 +58,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   }, []);
 
   const { user, appLogout } = useUserAuth();
-  console.log(user);
+  console.log("getCurrentUser:", user.uid);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
@@ -202,20 +202,25 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                         id={shortid.generate()}
                       >
                         {" "}
-                        <b>
-                          {index + 1}. {menusData["title"]}:
-                        </b>
+                        <b>{menusData["title"]}:</b>
                       </p>
                       <p className="d">
                         {menusData["descr"].split(" ", 3).map((e) => e + " ")}{" "}
                         ...
                       </p>
                       <p className="veg">
-                        (
-                        {menusData["veg"] ? "Vegetarisch" : "Nicht Vegetarisch"}
-                        )
+                        {menusData["veg"] ? (
+                          <img
+                            src="../src/assets/images/vegan.png"
+                            alt="Vegatarisch"
+                          />
+                        ) : (
+                          <img
+                            src="../src/assets/images/not-vegan.png"
+                            alt="Vegatarisch"
+                          />
+                        )}
                       </p>
-                      <p>ID: {menusData.id}</p>
                     </li>
                   );
                 })}

@@ -156,19 +156,22 @@
             .showAddmenu {
                 height: 220px !important;
                 opacity: 1 !important;
+                display: flex !important;
+                animation: grow .3s ease-in-out;
             }
 
             .addMenuForm {
-                display: flex;
+                display: none;
                 flex-direction: column;
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
                 margin: 10px;
                 background-color: rgb(161, 255, 192);
-                height: 0px;
-                opacity: 0;
-                transition: height 1s, opacity 0.5s;
+                height: 10px;
+                //opacity: 0;
+                box-shadow: 2px 2px 9px rgb(200, 200, 200);
+                //transition: opacity 1s ease;
 
                 .addFormComp {
                     width: 100%;
@@ -215,6 +218,7 @@
                 font-size: 2.1rem;
                 padding: 5px 0;
                 width: 100%;
+                margin-bottom: 10px;
 
                 .FaPlusCircle {
                     position: absolute;
@@ -225,68 +229,92 @@
                 }
             }
 
-            .mealItems {
-                //border: $borderSize dotted $border-color;
-                //height: 100vh;
-                max-height: 800px;
-                overflow-y: scroll;
-                padding: 0;
+            .mealContent {
                 width: 100%;
-                list-style: none;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                background-color: rgb(255, 245, 201);
-
-                li.mealItem:hover {
-                    background-color: rgb(255, 184, 62);
-                }
-
-                li.mealItem {
+                .mealItems {
+                    //border: $borderSize dotted $border-color;
+                    //height: 100vh;
+                    max-height: 600px;
+                    overflow-y: scroll;
+                    padding: 0;
                     width: 100%;
+                    list-style: none;
                     display: flex;
-                    flex-direction: row;
+                    flex-direction: column;
                     align-items: center;
                     justify-content: flex-start;
-                    border: $borderSize dotted #282c34;
-                    margin: 2px 0;
-                    min-height: 60px;
-                    padding-left: 10px;
-                    cursor: move;
+                    background-color: rgb(255, 245, 201);
 
-                    p {
-                        margin: 4px;
+                    li.mealItem:hover {
+                        background-color: rgb(255, 184, 62);
                     }
 
-                    p.t {
-                        text-align: left;
-                        width: 25%;
-                        margin: 4px;
-                        font-size: 1.1rem;
+                    li.mealItem {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+                        border: $borderSize dotted #282c34;
+                        margin: 2px 0;
+                        min-height: 60px;
+                        padding-left: 10px;
+                        cursor: move;
 
-                        b {
-                            font-weight: 600;
+                        p {
+                            margin: 4px;
+                        }
+
+                        p.t {
+                            text-align: left;
+                            width: 35%;
+                            margin: 4px;
+                            font-size: 1.1rem;
+
+                            b {
+                                font-weight: 600;
+                            }
+                        }
+
+                        p.d {
+                            text-align: left;
+                            width: 45%;
+                            margin: 4px;
+                            font-size: 1.1rem;
+                        }
+
+                        p.veg {
+                            text-align: right;
+                            width: 8%;
+                            margin: 4px;
+
+                            //font-size: .9rem;
+                            img {
+                                width: 25px;
+                                height: 28px;
+                            }
                         }
                     }
 
-                    p.d {
-                        text-align: left;
-                        width: 25%;
-                        margin: 4px;
-                        font-size: 1.1rem;
-                    }
-
-                    p.veg {
-                        text-align: left;
-                        width: 15%;
-                        margin: 4px;
-                        font-size: .9rem;
-                    }
                 }
-
             }
         }
 
     }
+    @keyframes grow {
+        0% {
+          display: none;
+          opacity: 0;
+        }
+        1% {
+          display: block;
+          opacity: 0.5;
+          transform: scale(.5);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          height: 220px;
+        }
+      }
 }

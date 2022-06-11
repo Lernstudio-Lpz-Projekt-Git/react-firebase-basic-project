@@ -10,6 +10,7 @@ import "./NewWeeks.scss";
 import { useUserAuth } from "../../services/UserAuthContext";
 import { FaSearch } from "react-icons/fa";
 import { set, ref } from "firebase/database";
+import { NewMenuForm } from "./NewMenuForm";
 
 interface NewWeeksProps {}
 
@@ -32,7 +33,6 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   });
   const [getStartDate, setStartDate] = useState(currStartDate);
   const [getEndDate, setEndDate] = useState(currEndDate);
-  const adminSignIn = true;
 
   const dbObjProps = [
     "montag",
@@ -58,7 +58,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   }, []);
 
   const { user, appLogout } = useUserAuth();
-  //console.log(user);
+  console.log(user);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
@@ -70,37 +70,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     }
   };
 
-  // show add menu form
-  const [menuTitle, setMenuTitle] = useState("");
-  const [menuDescr, setMenuDescr] = useState("");
-  const [menuVeg, setMenuVeg] = useState(false);
-
-  const handleTitleChange = (e:any) => {
-    e.preventDefault();
-    setMenuTitle(e.target.value);
-  };
-
-  const handleDescrChang = (e:any) => {
-    e.preventDefault();
-    setMenuDescr(e.target.value);
-  };
-
-  const handleVegChange = (e:any) => {
-    e.preventDefault();
-    setMenuVeg(e.target.checked);
-  };
-
-  const writeToDatabase = (e:any) => {
-    e.preventDefault();
-    const uID = shortid.generate();
-    set(ref(db, `/fb-menu-db`), { menuTitle, menuDescr, menuVeg });
-  };
-
-  const onSubmitHandle = () => {
-    console.log("Hallo onSubmitHandle")
-  }
-
-  const showAddMenuForm = (e:any) => {
+  const showAddMenuForm = (e: any) => {
     e.preventDefault();
     let showMenuElem = document.getElementById("addMenuForm");
     showMenuElem?.classList.toggle("showAddmenu");
@@ -206,7 +176,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
             </div>
             <div className="mealListTitle">
               <span className="t">
-                {getMenus.length}{" "}Gespeicherte Speisen:
+                {getMenus.length} Gespeicherte Speisen:
                 <FaPlusCircle
                   className="FaPlusCircle"
                   onClick={showAddMenuForm}
@@ -214,60 +184,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
               </span>
             </div>
             <div className="addMenuForm showAddmenu" id="addMenuForm">
-              <>
-              <Form onSubmit={onSubmitHandle}>
-              <div className="form-group">
-              <input
-                type="text"
-                id="addTitleField"
-                className="addTitle"
-                placeholder="Titel der Speise"
-                value={menuTitle}
-                //onChange={handleDescrChang}
-                onChange={(e) => setMenuTitle(e.target.value)}
-              />
-              </div>
-              <div className="form-group">
-              <input
-                type="text"
-                id="addDescrField"
-                className="addDescr"
-                placeholder="Kurze Beschreibunge"
-                value={menuDescr}
-                onChange={handleDescrChang}
-              /></div>
-              <div className="form-group">
-              <div className="checkBox">
-                <input
-                  type="checkbox"
-                  id="addVeg"
-                  name="addVeg"
-                  value={menuVeg}
-                  className="addVeg"
-                  onChange={handleVegChange}
-                />
-                <label className="checkBox-label" htmlFor="addVeg">
-                  Vegetarisch
-                </label>
-                </div>
-              </div>
-              <Button
-                className="addSubmit"
-                variant="success"
-                onClick={writeToDatabase}
-              >
-                Speichern
-              </Button>
-              </Form>
-              </>
+              <NewMenuForm />
             </div>
             <div className="mealContent">
               <ul className="mealItems">
-                <li className="mealItem">
-                  <p className="t"> {menuTitle} </p>
-                  <p className="d"> {menuDescr} </p>
-                  <p className="veg"> {menuVeg ? "Vegetarisch" : "Nicht Vegetarisch"} </p>
-                </li>
                 {getMenus.map((menusData, index) => {
                   return (
                     <li

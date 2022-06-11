@@ -10,14 +10,14 @@ interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
   const { user, appLogin, appLogout } = useUserAuth();
-  console.log(user);
+  //console.log(user);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
     try {
       await appLogout();
       navigate("/login");
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message);
     }
   };

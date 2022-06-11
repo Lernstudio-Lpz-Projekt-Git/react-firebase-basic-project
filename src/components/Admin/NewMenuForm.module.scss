@@ -1,0 +1,44 @@
+.NewMenuForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    width: 100%;
+
+    .addTitle,
+    .addDescr {
+        width: 80%;
+        height: 39px;
+        font-size: 1.2rem;
+        padding: 6px;
+        margin: 10px;
+    }
+
+    .addSubmit {
+        width: 30%;
+        min-width: 99px;
+        margin-bottom: 20px;
+    }
+
+    .checkBox {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+
+        .addVeg {
+            width: 24px;
+            height: 24px;
+            margin: 10px;
+            z-index: 9;
+        }
+
+        .checkBox-label {
+            align-items: center;
+            margin: 10px 0;
+            z-index: -1;
+        }
+    }
+}

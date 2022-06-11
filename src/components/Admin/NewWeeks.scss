@@ -166,40 +166,44 @@
                 width: 100%;
                 margin: 10px;
                 background-color: rgb(161, 255, 192);
-                transition: height 1s, opacity 0.5s;
                 height: 0px;
                 opacity: 0;
+                transition: height 1s, opacity 0.5s;
 
-                .addTitle,
-                .addDescr {
-                    width: 80%;
-                    height: 39px;
-                    font-size: 1.2rem;
-                    padding: 6px;
-                    margin: 10px;
-                }
+                .addFormComp {
+                    width: 100%;
 
-                .addSubmit {
-                    width: 30%;
-                    min-width: 99px;
-                    margin-bottom: 20px;
-                }
-
-                .checkBox {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: center;
-                    align-items: center;
-
-                    .addVeg {
-                        width: 24px;
-                        height: 24px;
+                    .addTitle,
+                    .addDescr {
+                        width: 80%;
+                        height: 39px;
+                        font-size: 1.2rem;
+                        padding: 6px;
                         margin: 10px;
                     }
 
-                    .checkBox-label {
+                    .addSubmit {
+                        width: 30%;
+                        min-width: 99px;
+                        margin-bottom: 20px;
+                    }
+
+                    .checkBox {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
                         align-items: center;
-                        margin: 10px 0;
+
+                        .addVeg {
+                            width: 24px;
+                            height: 24px;
+                            margin: 10px;
+                        }
+
+                        .checkBox-label {
+                            align-items: center;
+                            margin: 10px 0;
+                        }
                     }
                 }
             }

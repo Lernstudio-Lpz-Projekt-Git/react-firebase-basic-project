@@ -14,31 +14,14 @@ import {
 import { firebasedb } from "../../services/firebase-config";
 import GetRefById from "./../GetRefById/GetRefById";
 
-interface Review {
-  id?: string;
-  title: string;
-  subtitle: string;
-  startdate: string;
-  enddate: string;
-  fkref: object;
-  montag: string;
-  dienstag: string;
-  mittwoch: string;
-  donnerstag: string;
-  freitag: string;
-  samstag: string;
-  sonnatg: string;
-}
-
 interface WeekDropdownProps {}
 
 const WeekDropdown: FC<WeekDropdownProps> = () => {
   const [getWeekById, setWeekById] = useState([]);
   const [getWeeks, setWeeks] = useState([]);
-  const weeksCollectionRef = collection(
-    firebasedb,
-    "week-days"
-  ).withConverter(null);
+  const weeksCollectionRef = collection(firebasedb, "week-days").withConverter(
+    null
+  );
   // Einzelne Speisen / Menus
   const [getMenuRef, setMenuRef] = useState([]);
   const menuRefCollection: object = collection(firebasedb, "fb-menu-db");
@@ -66,9 +49,9 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
       const docRef = doc(firebasedb, "week-days", ID);
       const weekIDRef = await getDoc(docRef);
       console.log("Document data:", weekIDRef.data());
-      setWeekById(():any => weekIDRef.data());
+      setWeekById((): any => weekIDRef.data());
     } else {
-      setWeekById(():any => {
+      setWeekById((): any => {
         [];
       });
     }

@@ -228,8 +228,8 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                       {dropBoard &&
                       dropBoard["descr"] &&
                       dropBoard["title"] ? (
-                        <div>
-                          <p>{dropBoard["title"]}</p>
+                        <div className="DropData">
+                          <p><b>{dropBoard["title"]}</b></p>
                           <p>{dropBoard["descr"]}</p>
                         </div>
                       ) : (

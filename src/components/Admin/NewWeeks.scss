@@ -88,6 +88,15 @@
 
                     .DropData {
                         width: 80%;
+                        margin:0;
+
+                        p {
+                            margin:0 !important;
+
+                            b {
+                                font-weight: 600;
+                            }
+                        }
                     }
                 }
             }

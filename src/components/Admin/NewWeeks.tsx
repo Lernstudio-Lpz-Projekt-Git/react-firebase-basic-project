@@ -18,14 +18,15 @@ import { useUserAuth } from "../../services/UserAuthContext";
 import { FaSearch } from "react-icons/fa";
 import { NewMenuForm } from "./NewMenuForm";
 import MenuItem from "./MenuItem";
+import { useDrop } from "react-dnd";
+import { add } from "./../../../node_modules/dnd-core/dist/utils/coords";
 
 interface NewWeeksProps {}
 
 const NewWeeks: FC<NewWeeksProps> = () => {
   const [getMenus, setMenus] = useState([]);
   const menuCollectionRef = collection(firebasedb, "fb-menu-db");
-  // Date Picker for Start / End of Week
-  //const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
   const currStartDate = new Date().toLocaleString("de-DE", {
     timeZone: "Europe/Berlin",
     day: "2-digit",
@@ -51,6 +52,26 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     "sonnatg",
   ];
 
+  const interfaceNewWeeksList = {
+    montag: {},
+    dienstag: {},
+    mittwoch: {},
+    donnerstag: {},
+    freitag: {},
+    samstag: {},
+    sonnatg: {},
+  };
+
+  const [dbNewWeeksList, setDBNewWeeksList] = useState(interfaceNewWeeksList);
+  const addValuesTodbNewWeeksList = (value1, value2) => {
+    let copyStateList = { ...dbNewWeeksList };
+    copyStateList.montag["title"] = value1;
+    copyStateList.montag["descr"] = value2;
+    setDBNewWeeksList(() => ({ ...copyStateList }));
+    console.log(dbNewWeeksList);
+    addValuesTodbNewWeeksList("Klöse", "Beschreibung");
+  };
+
   useEffect(() => {
     const getMenus = async () => {
       const menusData = await getDocs(menuCollectionRef);
@@ -65,7 +86,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   }, []);
 
   const { user, appLogout } = useUserAuth();
-  console.log("getCurrentUser:", user.uid);
+  //console.log("getCurrentUser:", user.uid);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
@@ -102,10 +123,26 @@ const NewWeeks: FC<NewWeeksProps> = () => {
       getAuthConnection,
       where("uid", "==", user.uid)
     );
-    console.log("deletMenuItem", e.currentTarget.id);
+    //console.log("deletMenuItem", e.currentTarget.id);
     let itemID = e.currentTarget.id;
     await deleteDoc(doc(firebasedb, "fb-menu-db", itemID));
     refreshListItem();
+  };
+
+  const [dropBoard, setdragBoard] = useState([]);
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "images",
+    drop: (item:any) => addMenuItemToBoard(item.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
+  const addMenuItemToBoard = (id) => {
+    //console.log("DropBoard-Id: ", id);
+    const dragMenuItem = getMenus.filter((mItem) => id === mItem["id"]);
+    setdragBoard(() => dragMenuItem[0]);
+    //console.log(dropBoard.id);
   };
 
   return (
@@ -177,6 +214,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                 {getStartDate}-{getEndDate}
               </span>
             </div>
+
             <ul className="weekList">
               {dbObjProps.map((prop, index) => {
                 return (
@@ -186,7 +224,18 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                     id={shortid.generate()}
                   >
                     <div className="day">{prop.toLocaleUpperCase()}</div>
-                    <div className="DropData">Drop-Zone</div>
+                    <div className="DropData" ref={drop}>
+                      {dropBoard &&
+                      dropBoard["descr"] &&
+                      dropBoard["title"] ? (
+                        <div>
+                          <p>{dropBoard["title"]}</p>
+                          <p>{dropBoard["descr"]}</p>
+                        </div>
+                      ) : (
+                        "Drop-Zone"
+                      )}
+                    </div>
                   </li>
                 );
               })}

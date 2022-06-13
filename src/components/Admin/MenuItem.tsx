@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import shortid from "shortid";
 import styles from "./MenuItem.module.scss";
+import { useDrag } from "react-dnd";
 
 interface MenuItemProps {
   itemId: string;
@@ -17,8 +18,16 @@ const MenuItem: FC<MenuItemProps> = ({
   veg,
   deletMenuItem,
 }) => {
+  // CODE HERE
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "images",
+    item: {id:itemId},
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
   return (
-    <li className="mealItem" value={itemId} key={itemId} draggable>
+    <li className="mealItem" value={itemId} key={itemId} id={itemId} ref={drag} style={{border: isDragging ? "1px solid #00f": "1px dotted #282c34"}}>
       <>
         <p className="t" key={shortid.generate()} id={shortid.generate()}>
           {" "}

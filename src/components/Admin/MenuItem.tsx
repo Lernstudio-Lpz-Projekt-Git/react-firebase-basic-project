@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { CSSProperties, FC } from "react";
 import shortid from "shortid";
 import styles from "./MenuItem.module.scss";
 import { useDrag } from "react-dnd";
@@ -11,6 +11,10 @@ interface MenuItemProps {
   deletMenuItem;
 }
 
+const style: CSSProperties = {
+  cursor: 'move',
+}
+
 const MenuItem: FC<MenuItemProps> = ({
   itemId,
   title,
@@ -19,15 +23,16 @@ const MenuItem: FC<MenuItemProps> = ({
   deletMenuItem,
 }) => {
   // CODE HERE
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "images",
+  const [{ isDragging, opacity }, drag] = useDrag(() => ({
+    type: "dragMenu",
     item: {id:itemId},
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0.4 : 1
     }),
   }));
   return (
-    <li className="mealItem" value={itemId} key={itemId} id={itemId} ref={drag} style={{border: isDragging ? "1px solid #00f": "1px dotted #282c34"}}>
+    <li className="mealItem" style={{ ...style, opacity }} value={itemId} key={itemId} id={itemId} ref={drag} style={{border: isDragging ? "1px solid #00f": "1px dotted #282c34"}}>
       <>
         <p className="t" key={shortid.generate()} id={shortid.generate()}>
           {" "}

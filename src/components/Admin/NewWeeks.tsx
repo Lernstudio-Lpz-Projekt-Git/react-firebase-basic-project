@@ -5,6 +5,8 @@ import {
   deleteDoc,
   doc,
   where,
+  getDoc,
+  DocumentSnapshot,
 } from "firebase/firestore";
 import shortid from "shortid";
 // https://react-icons.github.io/react-icons/icons?name=fa
@@ -24,9 +26,23 @@ import { add } from "./../../../node_modules/dnd-core/dist/utils/coords";
 interface NewWeeksProps {}
 
 const NewWeeks: FC<NewWeeksProps> = () => {
+  // Get All MENU-ITEMS
   const [getMenus, setMenus] = useState([]);
   const menuCollectionRef = collection(firebasedb, "fb-menu-db");
+  useEffect(() => {
+    const getMenus = async () => {
+      const menusData = await getDocs(menuCollectionRef);
+      setMenus(
+        menusData.docs.map((menus) => {
+          return { ...menus.data(), id: menus.id };
+        })
+      );
+    };
 
+    getMenus();
+  }, []);
+
+  // MANAGE DATE FORMAT
   const currStartDate = new Date().toLocaleString("de-DE", {
     timeZone: "Europe/Berlin",
     day: "2-digit",
@@ -72,22 +88,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     addValuesTodbNewWeeksList("Klöse", "Beschreibung");
   };
 
-  useEffect(() => {
-    const getMenus = async () => {
-      const menusData = await getDocs(menuCollectionRef);
-      setMenus(
-        menusData.docs.map((menus) => {
-          return { ...menus.data(), id: menus.id };
-        })
-      );
-    };
-
-    getMenus();
-  }, []);
-
   const { user, appLogout } = useUserAuth();
-  //console.log("getCurrentUser:", user.uid);
-
   const navigate = useNavigate();
   const handleLogOut = async () => {
     try {
@@ -129,20 +130,35 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     refreshListItem();
   };
 
+  // DRAG & DROP Handling
   const [dropBoard, setdragBoard] = useState([]);
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: "images",
-    drop: (item:any) => addMenuItemToBoard(item.id),
+    accept: "dragMenu",
+    drop: (item: any) => addMenuItemToBoard(item.id),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
   }));
 
-  const addMenuItemToBoard = (id) => {
-    //console.log("DropBoard-Id: ", id);
-    const dragMenuItem = getMenus.filter((mItem) => id === mItem["id"]);
-    setdragBoard(() => dragMenuItem[0]);
-    //console.log(dropBoard.id);
+  /// GET BY ID : [getWeekById, setWeekById]
+  const [getMenuById, setMenuById] = useState([]);
+  const getMenuByIdFunc = async (ID: any) => {
+    console.log(ID);
+    if (ID != 0) {
+      const docRef = doc(firebasedb, "fb-menu-db", ID);
+      const menuIDRef = await getDoc(docRef);
+      const menuData:any = menuIDRef.data();
+      menuData.id =ID;
+      console.log("Document data:", menuData);
+      setMenuById((): any => menuData);
+    } else {
+      return [];
+    }
+  };
+
+  const addMenuItemToBoard = async (id) => {
+    console.log("DropBoard-Id: ", id);
+    await getMenuByIdFunc(id)
   };
 
   return (
@@ -225,12 +241,13 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                   >
                     <div className="day">{prop.toLocaleUpperCase()}</div>
                     <div className="DropData" ref={drop}>
-                      {dropBoard &&
-                      dropBoard["descr"] &&
-                      dropBoard["title"] ? (
-                        <div className="DropData">
-                          <p><b>{dropBoard["title"]}</b></p>
-                          <p>{dropBoard["descr"]}</p>
+                      {getMenuById && getMenuById["descr"] && getMenuById["title"] ? (
+                        <div className="DropData" id={getMenuById["id"]}>
+                          <p>
+                            <b>{getMenuById["title"]} </b>
+                            ID: ({getMenuById["id"]})
+                          </p>
+                          <p>{getMenuById["descr"]}</p>
                         </div>
                       ) : (
                         "Drop-Zone"

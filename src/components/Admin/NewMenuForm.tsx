@@ -10,12 +10,11 @@ import { collection, doc, getDocs, setDoc, where } from "firebase/firestore";
 
 interface NewMenuFormProps {}
 
-export const NewMenuForm: FC<NewMenuFormProps> = () => {
+export const NewMenuForm: FC<NewMenuFormProps> =  () => {
   // show add menu form
   const [menuTitle, setMenuTitle] = useState("");
   const [menuDescr, setMenuDescr] = useState("");
   const [menuVeg, setMenuVeg] = useState(true);
-  //const checkBoxRef = useRef(null);
 
   const handleTitleChange = (e: any) => {
     e.preventDefault();
@@ -30,7 +29,7 @@ export const NewMenuForm: FC<NewMenuFormProps> = () => {
   };
   const handleVegChange = (e: any) => {
     //e.preventDefault();
-    setMenuVeg(!menuVeg);
+    setMenuVeg(menuVeg);
     if (e.target.checked) {
       e.target.removeAttribute("checked");
     } else {

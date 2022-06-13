@@ -157,7 +157,7 @@
                 height: 220px !important;
                 opacity: 1 !important;
                 display: flex !important;
-                animation: grow .3s ease-in-out;
+                animation: grow 1s ease;
             }
 
             .addMenuForm {
@@ -168,10 +168,9 @@
                 width: 100%;
                 margin: 10px;
                 background-color: rgb(161, 255, 192);
-                height: 10px;
-                //opacity: 0;
+                height: 0;
+                opacity: 1;
                 box-shadow: 2px 2px 9px rgb(200, 200, 200);
-                //transition: opacity 1s ease;
 
                 .addFormComp {
                     width: 100%;
@@ -250,6 +249,7 @@
                     }
 
                     li.mealItem {
+                        position: relative;
                         width: 100%;
                         display: flex;
                         flex-direction: row;
@@ -283,6 +283,16 @@
                             font-size: 1.1rem;
                         }
 
+                        .deleteItem {
+                            position: absolute;
+                            //width: 44px;
+                            right: 10px;
+                            top: 20px;
+                            font-size: 22px;
+                            color: red;
+                
+                        }
+
                         p.veg {
                             text-align: right;
                             width: 8%;
@@ -304,17 +314,16 @@
     @keyframes grow {
         0% {
           display: none;
-          opacity: 0;
+          transform-origin: top right;
         }
-        1% {
+        .1% {
           display: block;
-          opacity: 0.5;
-          transform: scale(.5);
+          transform-origin: top right;
+          transform: scaleY(0);
         }
         100% {
-          opacity: 1;
-          transform: scale(1);
-          height: 220px;
+          transform-origin: top right;
+          transform: scaleY(1);
         }
       }
 }

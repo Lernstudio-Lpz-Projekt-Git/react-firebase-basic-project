@@ -1,16 +1,23 @@
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  deleteDoc,
+  doc,
+  where,
+} from "firebase/firestore";
 import shortid from "shortid";
 // https://react-icons.github.io/react-icons/icons?name=fa
 import { FaPlusCircle } from "react-icons/fa";
 import React, { FC, useEffect, useState } from "react";
 import { Button, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { firebasedb, db } from "../../services/firebase-config";
+import { firebasedb } from "../../services/firebase-config";
 import "./NewWeeks.scss";
 import { useUserAuth } from "../../services/UserAuthContext";
 import { FaSearch } from "react-icons/fa";
-import { set, ref } from "firebase/database";
 import { NewMenuForm } from "./NewMenuForm";
+import MenuItem from "./MenuItem";
 
 interface NewWeeksProps {}
 
@@ -70,10 +77,35 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     }
   };
 
-  const showAddMenuForm = (e: any) => {
+  const refreshListItem = async () => {
+    const menusData = await getDocs(menuCollectionRef);
+    setMenus(
+      menusData.docs.map((menus) => {
+        return { ...menus.data(), id: menus.id };
+      })
+    );
+  };
+
+  const showAddMenuForm = async (e: any) => {
     e.preventDefault();
     let showMenuElem = document.getElementById("addMenuForm");
     showMenuElem?.classList.toggle("showAddmenu");
+    if (showMenuElem && !showMenuElem.classList.contains("showAddmenu")) {
+      refreshListItem();
+    }
+  };
+
+  const deletMenuItem = async (e) => {
+    e.preventDefault();
+    const getAuthConnection: any = collection(firebasedb, "users");
+    const queryResult: any = query(
+      getAuthConnection,
+      where("uid", "==", user.uid)
+    );
+    console.log("deletMenuItem", e.currentTarget.id);
+    let itemID = e.currentTarget.id;
+    await deleteDoc(doc(firebasedb, "fb-menu-db", itemID));
+    refreshListItem();
   };
 
   return (
@@ -188,42 +220,20 @@ const NewWeeks: FC<NewWeeksProps> = () => {
             </div>
             <div className="mealContent">
               <ul className="mealItems">
-                {getMenus.map((menusData, index) => {
+                {getMenus.map((menuValues) => {
                   return (
-                    <li
-                      className="mealItem"
-                      value={menusData["id"]}
-                      key={menusData["id"]}
-                      draggable
-                    >
-                      <p
-                        className="t"
-                        key={shortid.generate()}
-                        id={shortid.generate()}
-                      >
-                        {" "}
-                        <b>{menusData["title"]}:</b>
-                      </p>
-                      <p className="d">
-                        {menusData["descr"].split(" ", 3).map((e) => e + " ")}{" "}
-                        ...
-                      </p>
-                      <p className="veg">
-                        {menusData["veg"] ? (
-                          <img
-                            src="../src/assets/images/vegan.png"
-                            alt="Vegatarisch"
-                          />
-                        ) : (
-                          <img
-                            src="../src/assets/images/not-vegan.png"
-                            alt="Vegatarisch"
-                          />
-                        )}
-                      </p>
-                    </li>
+                    <>
+                      <MenuItem
+                        itemId={menuValues["id"]}
+                        title={menuValues["title"]}
+                        descr={menuValues["descr"]}
+                        veg={menuValues["veg"]}
+                        deletMenuItem={deletMenuItem}
+                      />
+                    </>
                   );
                 })}
+                ;
               </ul>
             </div>
           </div>

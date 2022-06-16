@@ -50,7 +50,7 @@ const MenuItem: FC<MenuItemProps> = (props) => {
           {props.veg ? (
             <img src="../src/assets/images/vegan.png" alt="Vegatarisch" />
           ) : (
-            <img src="../src/assets/images/not-vegan.png" alt="Vegatarisch" />
+            <img src="../src/assets/images/not-vegan.png" alt="Nicht Vegatarisch" />
           )}
         </p>
         <p onClick={props.deletMenuItem} id={props.id}>

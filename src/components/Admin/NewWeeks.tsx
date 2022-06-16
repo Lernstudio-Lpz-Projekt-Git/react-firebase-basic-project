@@ -88,7 +88,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     DAY: string
   ) => {
     let copyStateList = { ...dbNewWeeksList };
-    let getDay = copyStateList[DAY];
+    //let getDay = copyStateList[DAY];
     //console.log(getDay);
     copyStateList[DAY]["title"] = title;
     copyStateList[DAY]["descr"] = descr;
@@ -96,8 +96,8 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     copyStateList[DAY]["id"] = id;
     setDBNewWeeksList(() => ({ ...copyStateList }));
     //console.log("NewWeek-List", dbNewWeeksList);
-    setSaveBtnDisabled(false);
-    setResetBtnDisabled(false);
+    setSaveBtnDisabled(() => false);
+    setResetBtnDisabled(() => false);
   };
 
   const { user, appLogout } = useUserAuth();
@@ -169,7 +169,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
 
   // SAVE BUTTON DISABLED / ENABLED
   const [saveBtnDisabled, setSaveBtnDisabled] = useState(true);
-  const [resetBtnDisabled, setResetBtnDisabled] = useState(false);
+  const [resetBtnDisabled, setResetBtnDisabled] = useState(true);
 
   const resetWeekMenu = () => {
     dbObjProps.forEach((day) => {
@@ -263,8 +263,9 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                       descr={
                         dbNewWeeksList && dbNewWeeksList[day]["descr"]
                           ? dbNewWeeksList[day]["descr"]
-                          : "Speise hier ablegen."
+                          : ""
                       }
+                      veg= {dbNewWeeksList && dbNewWeeksList[day]["veg"] ? dbNewWeeksList[day]["veg"] : ""}
                       key={shortid.generate()}
                       getMenuByIdFunc={getMenuByIdFunc}
                     />
@@ -272,9 +273,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                 );
               })}
             </ul>
+            <p className="saveInfo">Speichern springt zum Adminbereich.</p>
             {/* Save Button */}
             <div className="saveWeek">
-              <Button size="lg" variant="success">
+              <Button size="lg" variant="success"  disabled={saveBtnDisabled}>
                 <Link className="saveBtn" to="/admin">
                   Speichern
                 </Link>

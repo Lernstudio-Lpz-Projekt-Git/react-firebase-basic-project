@@ -11,7 +11,7 @@ import {
 import shortid from "shortid";
 // https://react-icons.github.io/react-icons/icons?name=fa
 import { FaPlusCircle } from "react-icons/fa";
-import { FC, useEffect, useState } from "react";
+import { FC, SetStateAction, useEffect, useState } from "react";
 import { Button, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { firebasedb } from "../../services/firebase-config";
@@ -26,9 +26,10 @@ import { DropBoxs } from "./DropBoxs";
 interface NewWeeksProps {}
 
 const NewWeeks: FC<NewWeeksProps> = () => {
+  const menuCollectionRef = collection(firebasedb, "fb-menu-db");
+
   // Get All MENU-ITEMS
   const [getMenus, setMenus] = useState([]);
-  const menuCollectionRef = collection(firebasedb, "fb-menu-db");
   useEffect(() => {
     const getMenus = async () => {
       const menusData = await getDocs(menuCollectionRef);
@@ -88,7 +89,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   ) => {
     let copyStateList = { ...dbNewWeeksList };
     let getDay = copyStateList[DAY];
-    console.log(getDay);
+    //console.log(getDay);
     copyStateList[DAY]["title"] = title;
     copyStateList[DAY]["descr"] = descr;
     copyStateList[DAY]["veg"] = veg;
@@ -129,7 +130,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   };
 
   // DELET MENU ITEM
-  const deletMenuItem = async (e) => {
+  const deletMenuItem = async (e: any) => {
     e.preventDefault();
     const getAuthConnection: any = collection(firebasedb, "users");
     const queryResult: any = query(

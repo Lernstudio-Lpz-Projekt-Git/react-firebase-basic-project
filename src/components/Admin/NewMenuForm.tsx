@@ -42,7 +42,7 @@ export const NewMenuForm: FC<NewMenuFormProps> =  () => {
   const writeToDatabase = async (e: any) => {
     e.preventDefault();
     console.log("newMenuCurrentUser:", user.uid);
-    const uID = uuidv4().replaceAll("-", "").substr(0, 19);
+    const uID = uuidv4().replaceAll("-", "").substr(0, 20);
     const getAuthConnection: any = collection(firebasedb, "users");
     const queryResult: any = query(
       getAuthConnection,

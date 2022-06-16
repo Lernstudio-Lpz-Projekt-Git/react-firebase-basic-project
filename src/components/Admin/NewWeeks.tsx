@@ -6,12 +6,12 @@ import {
   doc,
   where,
   getDoc,
-  DocumentSnapshot,
+  //DocumentSnapshot,
 } from "firebase/firestore";
 import shortid from "shortid";
 // https://react-icons.github.io/react-icons/icons?name=fa
 import { FaPlusCircle } from "react-icons/fa";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { firebasedb } from "../../services/firebase-config";
@@ -20,8 +20,8 @@ import { useUserAuth } from "../../services/UserAuthContext";
 import { FaSearch } from "react-icons/fa";
 import { NewMenuForm } from "./NewMenuForm";
 import MenuItem from "./MenuItem";
-import { useDrop } from "react-dnd";
-import { add } from "./../../../node_modules/dnd-core/dist/utils/coords";
+//import { useDrop } from "react-dnd";
+import { DropBoxs } from "./DropBoxs";
 
 interface NewWeeksProps {}
 
@@ -69,23 +69,34 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   ];
 
   const interfaceNewWeeksList = {
-    montag: {},
-    dienstag: {},
-    mittwoch: {},
-    donnerstag: {},
-    freitag: {},
-    samstag: {},
-    sonnatg: {},
+    montag: { title: "", descr: "", id: "", veg: false },
+    dienstag: { title: "", descr: "", id: "", veg: false },
+    mittwoch: { title: "", descr: "", id: "", veg: false },
+    donnerstag: { title: "", descr: "", id: "", veg: false },
+    freitag: { title: "", descr: "", id: "", veg: false },
+    samstag: { title: "", descr: "", id: "", veg: false },
+    sonnatg: { title: "", descr: "", id: "", veg: false },
   };
 
   const [dbNewWeeksList, setDBNewWeeksList] = useState(interfaceNewWeeksList);
-  const addValuesTodbNewWeeksList = (value1, value2) => {
+  const addValuesTodbNewWeeksList = (
+    title: string,
+    descr: string,
+    veg: boolean,
+    id: string,
+    DAY: string
+  ) => {
     let copyStateList = { ...dbNewWeeksList };
-    copyStateList.montag["title"] = value1;
-    copyStateList.montag["descr"] = value2;
+    let getDay = copyStateList[DAY];
+    console.log(getDay);
+    copyStateList[DAY]["title"] = title;
+    copyStateList[DAY]["descr"] = descr;
+    copyStateList[DAY]["veg"] = veg;
+    copyStateList[DAY]["id"] = id;
     setDBNewWeeksList(() => ({ ...copyStateList }));
-    console.log(dbNewWeeksList);
-    addValuesTodbNewWeeksList("Klöse", "Beschreibung");
+    //console.log("NewWeek-List", dbNewWeeksList);
+    setSaveBtnDisabled(false);
+    setResetBtnDisabled(false);
   };
 
   const { user, appLogout } = useUserAuth();
@@ -117,6 +128,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     }
   };
 
+  // DELET MENU ITEM
   const deletMenuItem = async (e) => {
     e.preventDefault();
     const getAuthConnection: any = collection(firebasedb, "users");
@@ -130,35 +142,40 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     refreshListItem();
   };
 
-  // DRAG & DROP Handling
-  const [dropBoard, setdragBoard] = useState([]);
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "dragMenu",
-    drop: (item: any) => addMenuItemToBoard(item.id),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }));
-
   /// GET BY ID : [getWeekById, setWeekById]
   const [getMenuById, setMenuById] = useState([]);
-  const getMenuByIdFunc = async (ID: any) => {
+  const getMenuByIdFunc = async (ID: any, DAY: any): Promise<any> => {
     console.log(ID);
     if (ID != 0) {
       const docRef = doc(firebasedb, "fb-menu-db", ID);
       const menuIDRef = await getDoc(docRef);
-      const menuData:any = menuIDRef.data();
-      menuData.id =ID;
+      const menuData: any = menuIDRef.data();
+      menuData.id = ID;
       console.log("Document data:", menuData);
+      //console.log("Day name:", DAY);
       setMenuById((): any => menuData);
+      addValuesTodbNewWeeksList(
+        menuData.title,
+        menuData.descr,
+        menuData.veg,
+        menuData.id,
+        DAY
+      );
     } else {
-      return [];
+      setMenuById((): any => [{ title: "", descr: "", id: "0", veg: false }]);
     }
   };
 
-  const addMenuItemToBoard = async (id) => {
-    console.log("DropBoard-Id: ", id);
-    await getMenuByIdFunc(id)
+  // SAVE BUTTON DISABLED / ENABLED
+  const [saveBtnDisabled, setSaveBtnDisabled] = useState(true);
+  const [resetBtnDisabled, setResetBtnDisabled] = useState(false);
+
+  const resetWeekMenu = () => {
+    dbObjProps.forEach((day) => {
+      addValuesTodbNewWeeksList("", "", false, "", day);
+    });
+    setSaveBtnDisabled(true);
+    setResetBtnDisabled(true);
   };
 
   return (
@@ -230,30 +247,27 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                 {getStartDate}-{getEndDate}
               </span>
             </div>
-
             <ul className="weekList">
-              {dbObjProps.map((prop, index) => {
+              {dbObjProps.map((day, index) => {
                 return (
-                  <li
-                    className="weekDropzone"
-                    key={shortid.generate()}
-                    id={shortid.generate()}
-                  >
-                    <div className="day">{prop.toLocaleUpperCase()}</div>
-                    <div className="DropData" ref={drop}>
-                      {getMenuById && getMenuById["descr"] && getMenuById["title"] ? (
-                        <div className="DropData" id={getMenuById["id"]}>
-                          <p>
-                            <b>{getMenuById["title"]} </b>
-                            ID: ({getMenuById["id"]})
-                          </p>
-                          <p>{getMenuById["descr"]}</p>
-                        </div>
-                      ) : (
-                        "Drop-Zone"
-                      )}
-                    </div>
-                  </li>
+                  <>
+                    <DropBoxs
+                      index={index}
+                      day={day}
+                      title={
+                        dbNewWeeksList && dbNewWeeksList[day]["title"]
+                          ? dbNewWeeksList[day]["title"]
+                          : ""
+                      }
+                      descr={
+                        dbNewWeeksList && dbNewWeeksList[day]["descr"]
+                          ? dbNewWeeksList[day]["descr"]
+                          : "Speise hier ablegen."
+                      }
+                      key={shortid.generate()}
+                      getMenuByIdFunc={getMenuByIdFunc}
+                    />
+                  </>
                 );
               })}
             </ul>
@@ -263,6 +277,16 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                 <Link className="saveBtn" to="/admin">
                   Speichern
                 </Link>
+              </Button>
+            </div>
+            <div className="resetWeek">
+              <Button
+                size="lg"
+                variant="secondary"
+                disabled={resetBtnDisabled}
+                onClick={resetWeekMenu}
+              >
+                Löschen
               </Button>
             </div>
           </div>
@@ -290,7 +314,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                   return (
                     <>
                       <MenuItem
-                        itemId={menuValues["id"]}
+                        id={menuValues["id"]}
                         title={menuValues["title"]}
                         descr={menuValues["descr"]}
                         veg={menuValues["veg"]}

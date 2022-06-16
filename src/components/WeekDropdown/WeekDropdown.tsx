@@ -133,7 +133,7 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
                 </div>
                 <div className="main" key={shortid.generate()}>
                   <div className="menu">
-                    {dbObjProps.map((prop, index) => {
+                    {dbObjProps.map((prop) => {
                       return (
                         <div
                           className="menu-ausg"
@@ -168,7 +168,7 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
                             ) : (
                               <img
                                 src="../src/assets/images/not-vegan.png"
-                                alt="Vegatarisch"
+                                alt="Nicht Vegatarisch"
                               />
                             )}
                           </p>

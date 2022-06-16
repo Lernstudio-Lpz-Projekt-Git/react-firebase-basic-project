@@ -88,10 +88,10 @@
 
                     .DropData {
                         width: 80%;
-                        margin:0;
+                        margin: 0;
 
                         p {
-                            margin:0 !important;
+                            margin: 0 !important;
 
                             b {
                                 font-weight: 600;
@@ -101,8 +101,22 @@
                 }
             }
 
+            .resetWeek {
+                margin: -70px 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                a {
+                    text-decoration: none;
+                    color: aliceblue;
+                }
+            }
+
             .saveWeek {
                 margin: 20px 0;
+                z-index: 22;
                 //align-self:stretch;
                 width: 100%;
                 display: flex;
@@ -239,6 +253,7 @@
 
             .mealContent {
                 width: 100%;
+
                 .mealItems {
                     //border: $borderSize dotted $border-color;
                     //height: 100vh;
@@ -299,7 +314,7 @@
                             top: 20px;
                             font-size: 22px;
                             color: red;
-                
+
                         }
 
                         p.veg {
@@ -320,19 +335,22 @@
         }
 
     }
+
     @keyframes grow {
         0% {
-          display: none;
-          transform-origin: top right;
+            display: none;
+            transform-origin: top right;
         }
+
         .1% {
-          display: block;
-          transform-origin: top right;
-          transform: scaleY(0);
+            display: block;
+            transform-origin: top right;
+            transform: scaleY(0);
         }
+
         100% {
-          transform-origin: top right;
-          transform: scaleY(1);
+            transform-origin: top right;
+            transform: scaleY(1);
         }
-      }
+    }
 }

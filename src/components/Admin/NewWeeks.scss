@@ -9,7 +9,8 @@
     text-align: center;
     //height: 100%;
     width: 90%;
-    margin: 0;
+    margin: 0 0 20px 0;
+    padding-bottom: 50px;
     //border: 4px dotted $border-color;
 
     .weekGenerator {
@@ -20,6 +21,7 @@
         text-align: center;
         width: 100%;
         margin-top: 20px;
+        min-height: 100vh;
         //border: $borderSize double $border-color;
 
         .showWeekForm {
@@ -129,7 +131,6 @@
 
             .saveWeek {
                 margin: 20px 0;
-                z-index: 22;
                 align-self:flex-end;
                 width: 20%;
                 display: flex;

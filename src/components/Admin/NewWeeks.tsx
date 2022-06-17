@@ -11,7 +11,7 @@ import {
 import shortid from "shortid";
 // https://react-icons.github.io/react-icons/icons?name=fa
 import { FaPlusCircle } from "react-icons/fa";
-import { FC, SetStateAction, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { firebasedb } from "../../services/firebase-config";
@@ -22,6 +22,7 @@ import { NewMenuForm } from "./NewMenuForm";
 import MenuItem from "./MenuItem";
 //import { useDrop } from "react-dnd";
 import { DropBoxs } from "./DropBoxs";
+import Footer from "../Home/Footer";
 
 interface NewWeeksProps {}
 
@@ -265,7 +266,11 @@ const NewWeeks: FC<NewWeeksProps> = () => {
                           ? dbNewWeeksList[day]["descr"]
                           : ""
                       }
-                      veg= {dbNewWeeksList && dbNewWeeksList[day]["veg"] ? dbNewWeeksList[day]["veg"] : ""}
+                      veg={
+                        dbNewWeeksList && dbNewWeeksList[day]["veg"]
+                          ? dbNewWeeksList[day]["veg"]
+                          : ""
+                      }
                       key={shortid.generate()}
                       getMenuByIdFunc={getMenuByIdFunc}
                     />
@@ -276,7 +281,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
             <p className="saveInfo">Speichern springt zum Adminbereich.</p>
             {/* Save Button */}
             <div className="saveWeek">
-              <Button size="lg" variant="success"  disabled={saveBtnDisabled}>
+              <Button size="lg" variant="success" disabled={saveBtnDisabled}>
                 <Link className="saveBtn" to="/admin">
                   Speichern
                 </Link>
@@ -332,6 +337,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
           </div>
         </div>
       </div>
+      <Footer Copyright="- Steffen Balmer, Last Update: 5/2022" />
     </div>
   );
 };

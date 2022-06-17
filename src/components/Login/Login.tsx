@@ -5,6 +5,7 @@ import { Alert, Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../services/UserAuthContext";
+import Footer from "../Home/Footer";
 
 interface LoginProps {}
 
@@ -74,6 +75,7 @@ const Login: FC<LoginProps> = () => {
           </p>
         </div>
       </div>
+      <Footer Copyright="- Steffen Balmer, Last Update: 5/2022" />
     </div>
   );
 };

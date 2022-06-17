@@ -7,32 +7,39 @@
   margin: 0 auto;
   width: 100%;
 
-    .HomeHeader {
-        background-color: #282c34;
-        width: 100%;
-        min-height: 10vh;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        font-size: calc(10px + 2vmin);
-        color: white;
-      }
-    .menu {
-      width: 100%;
-      margin: 20px;
-    }
+  .HomeHeader {
+    background-color: #282c34;
+    width: 100%;
+    min-height: 99px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
 
-    .loginBtn {
-      text-decoration: none;
-      color: aliceblue;
-    }
+  .menu {
+    width: 100%;
+    margin: 20px;
+    min-height: 100%;
+    height: auto !important;
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
+
+  .loginBtn {
+    text-decoration: none;
+    color: aliceblue;
+  }
 
 }
 
-#root, #container {
+#root,
+#container {
   width: 100%;
   max-width: 100%;
+  min-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
 }

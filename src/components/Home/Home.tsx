@@ -1,16 +1,17 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./Home.module.scss";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import WeekDropdown from "../WeekDropdown/WeekDropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useUserAuth } from "../../services/UserAuthContext";
+import Footer from "./Footer";
+import fs from 'fs';
 
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
   const { user, appLogin, appLogout } = useUserAuth();
-  //console.log(user);
 
   const navigate = useNavigate();
   const handleLogOut = async () => {
@@ -54,6 +55,7 @@ const Home: FC<HomeProps> = () => {
         <div className={styles.menu}>
           <WeekDropdown />
         </div>
+        <Footer  Copyright="- Steffen Balmer, Last Update: 5/2022" />
       </div>
     </>
   );

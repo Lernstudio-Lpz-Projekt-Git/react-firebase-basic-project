@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { firebasedb } from "../../services/firebase-config";
 import { useUserAuth } from "../../services/UserAuthContext";
+import Footer from "../Home/Footer";
 import "./Admin.scss";
 //import Home from "./components/Home/Home";
 
@@ -76,6 +77,7 @@ const Admin: FC<AdminProps> = () => {
           </Link>
         </Button>
       </div>
+      <Footer Copyright="- Steffen Balmer, Last Update: 5/2022" />
     </div>
   );
 };

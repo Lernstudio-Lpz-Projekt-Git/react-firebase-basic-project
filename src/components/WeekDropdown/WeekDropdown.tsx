@@ -106,14 +106,14 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
           {getWeeks.map((weekDate) => {
             return (
               <option value={weekDate["id"]} key={weekDate["id"]}>
-                Speiseplan vom {weekDate["start-date"]} {"-"}{" "}
-                {weekDate["end-date"]}
+                Speiseplan vom {weekDate["startdate"]} {"-"}{" "}
+                {weekDate["enddate"]}
               </option>
             );
           })}
         </select>
       </div>
-      <div className={styles.weeks} key="WEEKS">
+      <div className={styles.weeks} key={shortid.generate()}>
         {Array(getWeekById).map((week, i) => {
           if (week === undefined || week.length === 0) {
             return <div key={i}>Bitte eine Woche auswählen.</div>;
@@ -127,8 +127,8 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
                 >
                   <h2 className="ausg-title">{getWeekById["title"]}</h2>
                   <h3 className="ausg-subt">
-                    {getWeekById["sub-title"]} {getWeekById["start-date"]} -{" "}
-                    {getWeekById["end-date"]}
+                    {getWeekById["subtitle"]} {getWeekById["startdate"]} -{" "}
+                    {getWeekById["enddate"]}
                   </h3>
                 </div>
                 <div className="main" key={shortid.generate()}>
@@ -152,15 +152,15 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
                             key={shortid.generate()}
                             id={shortid.generate()}
                           >
-                            <h4>{week[prop][0]}</h4>
-                            <i>{week[prop][1]}</i>
+                            <h4>{week[prop]["title"]}</h4>
+                            <i>{week[prop]["descr"]}</i>
                           </div>
                           <p
                             className="menu-img"
                             key={shortid.generate()}
                             id={shortid.generate()}
                           >
-                            {week[prop][2] ? (
+                            {week[prop]["veg"] ? (
                               <img
                                 src="../src/assets/images/vegan.png"
                                 alt="Vegatarisch"
@@ -182,9 +182,9 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
           }
         })}
       </div>
-      <div className="ref">
+      {/* <div className="ref">
         <GetRefById />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import {
   doc,
   where,
   getDoc,
+  setDoc,
   //DocumentSnapshot,
 } from "firebase/firestore";
 import shortid from "shortid";
@@ -23,6 +24,7 @@ import MenuItem from "./MenuItem";
 //import { useDrop } from "react-dnd";
 import { DropBoxs } from "./DropBoxs";
 import Footer from "../Home/Footer";
+import { v4 as uuidv4 } from "uuid";
 
 interface NewWeeksProps {}
 
@@ -71,6 +73,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   ];
 
   const interfaceNewWeeksList = {
+    startdate: "",
+    enddate:"",
+    maintitle:"",
+    subtitle:"",
     montag: { title: "", descr: "", id: "", veg: false },
     dienstag: { title: "", descr: "", id: "", veg: false },
     mittwoch: { title: "", descr: "", id: "", veg: false },
@@ -91,6 +97,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     let copyStateList = { ...dbNewWeeksList };
     //let getDay = copyStateList[DAY];
     //console.log(getDay);
+    copyStateList["startdate"] = "20.07.2022";
+    copyStateList["enddate"] = "27.07.2022";
+    copyStateList["maintitle"] = "Vegetarische Woche im Juni";
+    copyStateList["subtitle"] = "Aktueller Speiseplan vom ";
     copyStateList[DAY]["title"] = title;
     copyStateList[DAY]["descr"] = descr;
     copyStateList[DAY]["veg"] = veg;
@@ -179,6 +189,20 @@ const NewWeeks: FC<NewWeeksProps> = () => {
     setSaveBtnDisabled(true);
     setResetBtnDisabled(true);
   };
+
+  // SAVE NEW FOOD MENU
+  const writeWEEKPLANToDatabase = async () => {
+    console.log("writeWEEKPLANToDatabase:", user.uid);
+    const uID = uuidv4().replaceAll("-", "").substr(0, 20);
+    const getAuthConnection: any = collection(firebasedb, "users");
+    const queryResult: any = query(
+      getAuthConnection,
+      where("uid", "==", user.uid)
+    );
+
+    setDoc(doc(firebasedb, `/week-days/${uID}`), dbNewWeeksList);
+  };
+
 
   return (
     <div className="Admin">
@@ -281,10 +305,10 @@ const NewWeeks: FC<NewWeeksProps> = () => {
             <p className="saveInfo">Speichern springt zum Adminbereich.</p>
             {/* Save Button */}
             <div className="saveWeek">
-              <Button size="lg" variant="success" disabled={saveBtnDisabled}>
-                <Link className="saveBtn" to="/admin">
+              <Button size="lg" variant="success" disabled={saveBtnDisabled} onClick={writeWEEKPLANToDatabase}>
+                {/* <Link className="saveBtn" to="/admin"> */}
                   Speichern
-                </Link>
+                {/* </Link> */}
               </Button>
             </div>
             <div className="resetWeek">
@@ -343,3 +367,4 @@ const NewWeeks: FC<NewWeeksProps> = () => {
 };
 
 export default NewWeeks;
+

@@ -58,8 +58,8 @@ const Admin: FC<AdminProps> = () => {
             return (
               <li className="item" value={weekDate["id"]} key={weekDate["id"]}>
                 <p>
-                  Speiseplan vom {weekDate["start-date"]} {"-"}{" "}
-                  {weekDate["end-date"]} <b> (ID: {weekDate["id"]})</b>
+                  Speiseplan vom {weekDate["startdate"]} {"-"}{" "}
+                  {weekDate["enddate"]} <b> (ID: {weekDate["id"]})</b>
                 </p>
                 <div className="editBtn">
                   <i className="fa fa-refresh updateItem"></i>

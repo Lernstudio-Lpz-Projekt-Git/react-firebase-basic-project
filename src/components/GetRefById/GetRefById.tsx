@@ -36,9 +36,9 @@ const GetRefById: FC<GetRefByIdProps> = () => {
         const docRef = doc(firebasedb, "week-days", ID);
         const weekIDRef = await getDoc(docRef);
         console.log("GetRefById data:", weekIDRef.data());
-        setWeekById(():any => weekIDRef.data());
+        setWeekById((): any => weekIDRef.data());
       } else {
-        setWeekById(():any => {
+        setWeekById((): any => {
           [];
         });
       }
@@ -48,8 +48,9 @@ const GetRefById: FC<GetRefByIdProps> = () => {
 
   return (
     <div className={styles.GetRefById}>
-      <p className="data">Title: {Array(getWeekById["title"])}</p>{" "}
-      <p className="data">GetData: {Array(myData)}</p>
+      <>
+        <p className="data">Title: {Array(getWeekById["title"])} </p>
+      </>
     </div>
   );
 };

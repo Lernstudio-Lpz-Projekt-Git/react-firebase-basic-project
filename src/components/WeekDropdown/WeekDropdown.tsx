@@ -125,7 +125,7 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
                   key={shortid.generate()}
                   id={shortid.generate()}
                 >
-                  <h2 className="ausg-title">{getWeekById["title"]}</h2>
+                  <h2 className="ausg-title">{getWeekById["maintitle"]}</h2>
                   <h3 className="ausg-subt">
                     {getWeekById["subtitle"]} {getWeekById["startdate"]} -{" "}
                     {getWeekById["enddate"]}
@@ -182,9 +182,9 @@ const WeekDropdown: FC<WeekDropdownProps> = () => {
           }
         })}
       </div>
-      {/* <div className="ref">
-        <GetRefById />
-      </div> */}
+      <div className="ref">
+        {/* <GetRefById /> */} o-o
+      </div>
     </div>
   );
 };

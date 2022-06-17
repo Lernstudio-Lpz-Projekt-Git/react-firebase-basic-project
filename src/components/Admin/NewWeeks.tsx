@@ -87,6 +87,7 @@ const NewWeeks: FC<NewWeeksProps> = () => {
   };
 
   const [dbNewWeeksList, setDBNewWeeksList] = useState(interfaceNewWeeksList);
+
   const addValuesTodbNewWeeksList = (
     title: string,
     descr: string,

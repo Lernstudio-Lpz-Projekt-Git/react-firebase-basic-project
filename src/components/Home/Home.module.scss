@@ -17,11 +17,13 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    position: sticky;
+top: 0;
   }
 
   .menu {
     width: 100%;
-    margin: 20px;
+    margin: 20px 0 99px 0;
     min-height: 100%;
     height: auto !important;
     flex-shrink: 0;

@@ -349,6 +349,14 @@
 
     }
 
+    .ref {
+        display: flex;
+        position:relative;
+        margin-bottom: 50px;
+        height: 15%;
+        min-height: 280px;
+    }
+
     @keyframes grow {
         0% {
             display: none;
